@@ -7,6 +7,6 @@ http.createServer(function (req, res) {
 
 var client = xmlrpc.createClient()
 console.log(client)
-client.call('dosomething', ['param1', 2, 2.2, true, false, ['a', 'b', 'c']], function () { })
+client.call('dosomething', ['param1', 2, 2.2, true, false, ['a', 'b', 'c'], { a: 'objparam1', b2: 'objectparam2' }, null], function () { })
 console.log('Started the XMLRPC test client')
 

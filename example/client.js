@@ -1,8 +1,12 @@
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Client\n');
-}).listen(3000, 'localhost');
+var http   = require('http')
+  , xmlrpc = require('../lib/node-xmlrpc.js')
 
-console.log('Started the XMLRPC test client');
+http.createServer(function (req, res) {
+
+}).listen(3000, 'localhost')
+
+var client = xmlrpc.createClient()
+console.log(client)
+client.call('dosomething', ['param1', 2, 2.2, true, false, ['a', 'b', 'c']], function () { })
+console.log('Started the XMLRPC test client')
 

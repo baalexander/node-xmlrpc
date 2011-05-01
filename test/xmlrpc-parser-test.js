@@ -11,7 +11,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.createCallXml('testMethod', ['testString'], this.callback)
       }
     , 'contains the string' : function (err, xml) {
-        //assert.equal(xml, '<methodCall><methodName>testMethod</methodName><params><param><value><string>testString</string></value></param></params></methodCall>')
+        assert.equal(xml, '<methodCall><methodName>testMethod</methodName><params><param><value><string>testString</string></value></param></params></methodCall>')
       }
     }
     // FIXME Empty string causes warnings. Need to figure out what's the
@@ -135,6 +135,19 @@ vows.describe('XML-RPC Parser').addBatch({
       }
     , 'contains the struct' : function (err, xml) {
         assert.equal(xml, '<methodCall><methodName>testMethod</methodName><params><param><value><struct><member><name>stringName</name><value><string>string1</string></value></member><member><name>objectName</name><value><struct><member><name>intName</name><value><int>4</int></value></member></struct></value></member></struct></value></param></params></methodCall>')
+      }
+    }
+  }
+
+  // Test parseResponseXml functionality
+, 'A paraseResponseXml call' : {
+    // Test String
+    'with a String param' : {
+      topic: function() {
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><string>testString</string></value></param></params></methodResponse>', this.callback)
+      }
+    , 'contains the array' : function (err, params) {
+        assert.deepEqual(params, ['testString'])
       }
     }
   }

@@ -5,8 +5,36 @@ var vows         = require('vows')
 vows.describe('XML-RPC Parser').addBatch({
   // Test parseResponseXml functionality
   'A parseResponseXml call' : {
+    // Test array
+    'with an Array param' : {
+      topic: function() {
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><string>testString</string></value></data></array></value></param></params></methodResponse>', this.callback)
+      }
+    , 'contains an array of arrays' : function (err, params) {
+        assert.typeOf(params[0], 'array')
+        assert.deepEqual(params, [[178, 'testString']])
+      }
+    }
+  , 'with a nested Array param' : {
+      topic: function() {
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><array><data><value><string>testString</string></value></data></array></value></data></array></value></param></params></methodResponse>', this.callback)
+      }
+    , 'contains an array of arrays' : function (err, params) {
+        assert.typeOf(params[0], 'array')
+        assert.deepEqual(params, [[178, ['testString']]])
+      }
+    }
+  , 'with a false Boolean param' : {
+      topic: function() {
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><boolean>0</boolean></value></param></params></methodResponse>', this.callback)
+      }
+    , 'contains an array with a false value' : function (err, params) {
+        assert.typeOf(params[0], 'boolean')
+        assert.deepEqual(params, [false])
+      }
+    }
     // Test boolean
-    'with a true Boolean param' : {
+  , 'with a true Boolean param' : {
       topic: function() {
         xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><boolean>1</boolean></value></param></params></methodResponse>', this.callback)
       }

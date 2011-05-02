@@ -33,6 +33,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter']])
       }
     }
+  , 'with multiple params containing Arrays and other values mixed in' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string></value><value><int>64</int></value></data></array></value><value><string>testLevel1StringAfter</string></value></data></array></value></param>'
+          + '<param><value><array><data><value><int>19</int></value><value><boolean>1</boolean></value><value><array><data><value><string>testSomeString</string></value><value><int>60</int></value></data></array></value><value><string>pleasework</string></value><value><double>7.11</double></value></data></array></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseResponseXml(xml, this.callback)
+      }
+    , 'contains an array of arrays' : function (err, params) {
+        assert.typeOf(params[0], 'array')
+        assert.typeOf(params[1], 'array')
+        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'], [19, true, ['testSomeString', 60], 'pleasework', 7.11]])
+      }
+    }
     // Test boolean
   , 'with a true Boolean param' : {
       topic: function() {

@@ -5,9 +5,8 @@ var vows         = require('vows')
 vows.describe('XML-RPC Parser').addBatch({
   // Test parseResponseXml functionality
   'A parseResponseXml call' : {
-    // Test array
-    'with an Array param' : {
-      topic: function() {
+    // Test Array
+    'with an Array param' : { topic: function() {
         xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><string>testString</string></value></data></array></value></param></params></methodResponse>', this.callback)
       }
     , 'contains an array of arrays' : function (err, params) {
@@ -47,7 +46,7 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'], [19, true, ['testSomeString', 60], 'pleasework', 7.11]])
       }
     }
-    // Test boolean
+    // Test Boolean
   , 'with a true Boolean param' : {
       topic: function() {
         xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><boolean>1</boolean></value></param></params></methodResponse>', this.callback)
@@ -66,7 +65,7 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, [false])
       }
     }
-    // Test dateTime
+    // Test DateTime
   , 'with a Datetime param' : {
       topic: function() {
         xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><dateTime.iso8601>20120608T11:35:10</dateTime.iso8601></value></param></params></methodResponse>', this.callback)
@@ -76,7 +75,7 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, [new Date(2012, 05, 08, 11, 35, 10)])
       }
     }
-    // Test double
+    // Test Double
   , 'with a positive Double param' : {
       topic: function() {
         xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><double>4.11</double></value></param></params></methodResponse>', this.callback)
@@ -158,6 +157,28 @@ vows.describe('XML-RPC Parser').addBatch({
     , 'contains an array with the string' : function (err, params) {
         assert.typeOf(params[0], 'string')
         assert.deepEqual(params, ['testString'])
+      }
+    }
+    // Test Struct
+  , 'with a Struct param' : {
+      topic: function() {
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><struct><member><name>theName</name><value><string>testValue</string></value></member></struct></value></param></params></methodResponse>', this.callback)
+      }
+    , 'contains the object' : function (err, params) {
+        assert.isObject(params[0])
+        assert.deepEqual(params, [{ theName: 'testValue'}])
+      }
+    }
+  , 'with a nested Struct param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><struct><member><name>theName</name><value><string>testValue</string></value></member><member><name>anotherName</name><value><struct><member><name>nestedName</name><value><string>nestedValue</string></value></member></struct></value></member><member><name>lastName</name><value><string>Smith</string></value></member></struct></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseResponseXml(xml, this.callback)
+      }
+    , 'contains the objects' : function (err, params) {
+        assert.isObject(params[0])
+        assert.deepEqual(params, [{ theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith'}])
       }
     }
   }

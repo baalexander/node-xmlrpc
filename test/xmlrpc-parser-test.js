@@ -13,9 +13,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array of arrays' : function (err, params) {
-        assert.typeOf(params[0], 'array')
-        assert.deepEqual(params, [[178, 'testString']])
+    , 'contains an array of arrays' : function (err, value) {
+        assert.isArray(value, 'array')
+        assert.deepEqual(value, [178, 'testString'])
       }
     }
   , 'with a nested Array param' : {
@@ -25,9 +25,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array of arrays' : function (err, params) {
-        assert.typeOf(params[0], 'array')
-        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64]]])
+    , 'contains an array of arrays' : function (err, value) {
+        assert.isArray(value, 'array')
+        assert.deepEqual(value, [178, 'testLevel1String', ['testString', 64]])
       }
     }
   , 'with a nested Array param and values after the nested array' : {
@@ -37,23 +37,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array of arrays' : function (err, params) {
-        assert.typeOf(params[0], 'array')
-        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter']])
-      }
-    }
-  , 'with multiple params containing Arrays and other values mixed in' : {
-      topic: function() {
-        var xml = '<methodResponse><params>'
-          + '<param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string></value><value><int>64</int></value></data></array></value><value><string>testLevel1StringAfter</string></value></data></array></value></param>'
-          + '<param><value><array><data><value><int>19</int></value><value><boolean>1</boolean></value><value><array><data><value><string>testSomeString</string></value><value><int>60</int></value></data></array></value><value><string>pleasework</string></value><value><double>7.11</double></value></data></array></value></param>'
-          + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
-      }
-    , 'contains an array of arrays' : function (err, params) {
-        assert.typeOf(params[0], 'array')
-        assert.typeOf(params[1], 'array')
-        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'], [19, true, ['testSomeString', 60], 'pleasework', 7.11]])
+    , 'contains an array of arrays' : function (err, value) {
+        assert.isArray(value, 'array')
+        assert.deepEqual(value, [178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'])
       }
     }
     // Test Boolean
@@ -64,9 +50,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array with a true value' : function (err, params) {
-        assert.typeOf(params[0], 'boolean')
-        assert.deepEqual(params, [true])
+    , 'contains an array with a true value' : function (err, value) {
+        assert.typeOf(value, 'boolean')
+        assert.strictEqual(value, true)
       }
     }
   , 'with a false Boolean param' : {
@@ -76,9 +62,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array with a false value' : function (err, params) {
-        assert.typeOf(params[0], 'boolean')
-        assert.deepEqual(params, [false])
+    , 'contains an array with a false value' : function (err, value) {
+        assert.typeOf(value, 'boolean')
+        assert.strictEqual(value, false)
       }
     }
     // Test DateTime
@@ -89,9 +75,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the Date object' : function (err, params) {
-        assert.typeOf(params[0], 'date')
-        assert.deepEqual(params, [new Date(2012, 05, 08, 11, 35, 10)])
+    , 'contains the Date object' : function (err, value) {
+        assert.typeOf(value, 'date')
+        assert.deepEqual(value, new Date(2012, 05, 08, 11, 35, 10))
       }
     }
     // Test Double
@@ -102,9 +88,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the positive double' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [4.11])
+    , 'contains the positive double' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, 4.11)
       }
     }
   , 'with a negative Double param' : {
@@ -114,9 +100,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the positive double' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [-4.2221])
+    , 'contains the positive double' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, -4.2221)
       }
     }
     // Test Integer
@@ -127,9 +113,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the positive integer' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [4])
+    , 'contains the positive integer' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, 4)
       }
     }
   , 'with a positive I4 param' : {
@@ -139,9 +125,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the positive integer' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [6])
+    , 'contains the positive integer' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, 6)
       }
     }
   , 'with a negative Int param' : {
@@ -151,9 +137,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the negative integer' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [-14])
+    , 'contains the negative integer' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, -14)
       }
     }
   , 'with a negative I4 param' : {
@@ -163,9 +149,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the negative integer' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [-26])
+    , 'contains the negative integer' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, -26)
       }
     }
   , 'with a Int param of 0' : {
@@ -175,9 +161,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the value 0' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [0])
+    , 'contains the value 0' : function (err, value) {
+        assert.isNumber(value)
+        assert.strictEqual(value, 0)
       }
     }
   , 'with a I4 param of 0' : {
@@ -187,9 +173,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the value 0' : function (err, params) {
-        assert.typeOf(params[0], 'number')
-        assert.deepEqual(params, [0])
+    , 'contains the value 0' : function (err, value) {
+        assert.isNumber(value)
+        assert.deepEqual(value, 0)
       }
     }
     // Test String
@@ -200,9 +186,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains an array with the string' : function (err, params) {
-        assert.typeOf(params[0], 'string')
-        assert.deepEqual(params, ['testString'])
+    , 'contains an array with the string' : function (err, value) {
+        assert.isString(value)
+        assert.strictEqual(value, 'testString')
       }
     }
     // Test Struct
@@ -213,9 +199,9 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the object' : function (err, params) {
-        assert.isObject(params[0])
-        assert.deepEqual(params, [{ theName: 'testValue'}])
+    , 'contains the object' : function (err, value) {
+        assert.isObject(value)
+        assert.deepEqual(value, { theName: 'testValue'})
       }
     }
   , 'with a nested Struct param' : {
@@ -225,16 +211,15 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the objects' : function (err, params) {
-        assert.isObject(params[0])
-        assert.deepEqual(params, [{ theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith'}])
+    , 'contains the objects' : function (err, value) {
+        assert.isObject(value)
+        assert.deepEqual(value, { theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith'})
       }
     }
   // The grinder
   , 'with a mix of everything' : {
       topic: function() {
         var xml = '<methodResponse><params>'
-          + '<param><value><struct><member><name>theName</name><value><string>testValue2</string></value></member><member><name>anotherName2</name><value><struct><member><name>somenestedName</name><value><string>nestedValue2k</string></value></member></struct></value></member><member><name>lastName</name><value><string>Smith</string></value></member></struct></value></param>'
           + '<param><value><array><data>'
             + '<value><struct><member><name>theName</name><value><string>testValue</string></value></member><member><name>anotherName</name><value><struct><member><name>nestedName</name><value><string>nestedValue</string></value></member></struct></value></member><member><name>lastName</name><value><string>Smith</string></value></member></struct></value>'
             + '<value><array><data>'
@@ -242,38 +227,31 @@ vows.describe('XML-RPC Parser').addBatch({
               + '<value><string>moreNested</string></value>'
             + '</data></array></value>'
           + '</data></array></value></param>'
-          + '<param><value><dateTime.iso8601>19850608T14:35:10</dateTime.iso8601></value></param>'
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the objects' : function (err, params) {
-        assert.isObject(params[0])
-        assert.isArray(params[1])
-        assert.typeOf(params[2], 'date')
+    , 'contains the objects' : function (err, value) {
+        assert.isArray(value)
           var expected = [
-            { theName: 'testValue2', anotherName2: {somenestedName: 'nestedValue2k' }, lastName: 'Smith'}
+            { theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith' }
           , [
-              { theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith' }
-            , [
-                { yetAnotherName: 1999.26}
-              , 'moreNested'
-              ]
+              { yetAnotherName: 1999.26}
+            , 'moreNested'
             ]
-          , new Date(1985, 05, 08, 14, 35, 10)
           ]
-        assert.deepEqual(params, expected)
+        assert.deepEqual(value, expected)
       }
     }
   // ROS (Robot Operating System) example
-  , 'with a response ROS would give' : {
+  , 'with a response that ROS would give' : {
       topic: function() {
         var xml = '<?xml version=\'1.0\'?><methodResponse><params><param><value><array><data><value><int>1</int></value><value><string>current system state</string></value><value><array><data><value><array><data><value><array><data><value><string>/rosout_agg</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout/set_logger_level</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value><value><array><data><value><string>/rosout/get_loggers</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value></data></array></value></data></array></value></param></params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
-    , 'contains the objects' : function (err, params) {
-        assert.isArray(params[0])
+    , 'contains the objects' : function (err, value) {
+        assert.isArray(value)
         var expected = [1, 'current system state', [[['/rosout_agg', ['/rosout']]], [['/rosout', ['/rosout']]], [['/rosout/set_logger_level', ['/rosout']], ['/rosout/get_loggers', ['/rosout']]]]]
-        assert.deepEqual(params[0], expected)
+        assert.deepEqual(value, expected)
       }
     }
 

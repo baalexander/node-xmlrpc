@@ -17,20 +17,20 @@ vows.describe('XML-RPC Parser').addBatch({
     }
   , 'with a nested Array param' : {
       topic: function() {
-        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><array><data><value><string>testString</string></value></data></array></value></data></array></value></param></params></methodResponse>', this.callback)
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string><value><int>64</int></value></value></data></array></value></data></array></value></param></params></methodResponse>', this.callback)
       }
     , 'contains an array of arrays' : function (err, params) {
         assert.typeOf(params[0], 'array')
-        assert.deepEqual(params, [[178, ['testString']]])
+        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64]]])
       }
     }
-  , 'with a false Boolean param' : {
+  , 'with a nested Array param and values after the nested array' : {
       topic: function() {
-        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><boolean>0</boolean></value></param></params></methodResponse>', this.callback)
+        xmlrpcParser.parseResponseXml('<methodResponse><params><param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string><value><int>64</int></value></value></data></array></value><value><string>testLevel1StringAfter</string></value></data></array></value></param></params></methodResponse>', this.callback)
       }
-    , 'contains an array with a false value' : function (err, params) {
-        assert.typeOf(params[0], 'boolean')
-        assert.deepEqual(params, [false])
+    , 'contains an array of arrays' : function (err, params) {
+        assert.typeOf(params[0], 'array')
+        assert.deepEqual(params, [[178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter']])
       }
     }
     // Test boolean

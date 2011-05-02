@@ -248,6 +248,8 @@ vows.describe('XML-RPC Parser').addBatch({
       }
     , 'contains the objects' : function (err, params) {
         assert.isObject(params[0])
+        assert.isArray(params[1])
+        assert.typeOf(params[2], 'date')
           var expected = [
             { theName: 'testValue2', anotherName2: {somenestedName: 'nestedValue2k' }, lastName: 'Smith'}
           , [
@@ -262,6 +264,19 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, expected)
       }
     }
+  // ROS (Robot Operating System) example
+  , 'with a response ROS would give' : {
+      topic: function() {
+        var xml = '<?xml version=\'1.0\'?><methodResponse><params><param><value><array><data><value><int>1</int></value><value><string>current system state</string></value><value><array><data><value><array><data><value><array><data><value><string>/rosout_agg</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout/set_logger_level</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value><value><array><data><value><string>/rosout/get_loggers</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value></data></array></value></data></array></value></param></params></methodResponse>'
+        xmlrpcParser.parseResponseXml(xml, this.callback)
+      }
+    , 'contains the objects' : function (err, params) {
+        assert.isArray(params[0])
+        var expected = [1, 'current system state', [[['/rosout_agg', ['/rosout']]], [['/rosout', ['/rosout']]], [['/rosout/set_logger_level', ['/rosout']], ['/rosout/get_loggers', ['/rosout']]]]]
+        assert.deepEqual(params[0], expected)
+      }
+    }
+
   }
 
 }).export(module)

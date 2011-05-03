@@ -254,6 +254,60 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(value, expected)
       }
     }
+  , 'with a response that ROS would give (includes new lines)' : {
+      topic: function() {
+        var xml = ['<?xml version=\'1.0\'?>'
+          , '<methodResponse>'
+          , '<params>'
+          , '<param>'
+          , '<value><array><data>'
+          , '<value><int>1</int></value>'
+          , '<value><string>current system state</string></value>'
+          , '<value><array><data>'
+          , '<value><array><data>'
+          , '<value><array><data>'
+          , '<value><string>/rosout_agg</string></value>'
+          , '<value><array><data>'
+          , '<value><string>/rosout</string></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '<value><array><data>'
+          , '<value><array><data>'
+          , '<value><string>/rosout</string></value>'
+          , '<value><array><data>'
+          , '<value><string>/rosout</string></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '<value><array><data>'
+          , '<value><array><data>'
+          , '<value><string>/rosout/set_logger_level</string></value>'
+          , '<value><array><data>'
+          , '<value><string>/rosout</string></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '<value><array><data>'
+          , '<value><string>/rosout/get_loggers</string></value>'
+          , '<value><array><data>'
+          , '<value><string>/rosout</string></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</data></array></value>'
+          , '</param>'
+          , '</params>'
+          , '</methodResponse>'
+          ].join('\n')
+        xmlrpcParser.parseResponseXml(xml, this.callback)
+      }
+    , 'contains the objects' : function (err, value) {
+        assert.isArray(value)
+        var expected = [1, 'current system state', [[['/rosout_agg', ['/rosout']]], [['/rosout', ['/rosout']]], [['/rosout/set_logger_level', ['/rosout']], ['/rosout/get_loggers', ['/rosout']]]]]
+        assert.deepEqual(value, expected)
+      }
+    }
 
   }
 

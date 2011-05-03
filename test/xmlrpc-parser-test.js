@@ -4,16 +4,16 @@ var vows         = require('vows')
 
 vows.describe('XML-RPC Parser').addBatch({
   //////////////////////////////////////////////////////////////////////
-  // Test parseResponseXml functionality
+  // Test parseMethodResponse functionality
   //////////////////////////////////////////////////////////////////////
-  'A parseResponseXml call' : {
+  'A parseMethodResponse call' : {
     // Test Array
     'with an Array param' : {
       topic: function() {
         var xml = '<methodResponse><params>'
           + '<param><value><array><data><value><int>178</int></value><value><string>testString</string></value></data></array></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array of arrays' : function (err, value) {
         assert.isArray(value, 'array')
@@ -25,7 +25,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string></value><value><int>64</int></value></data></array></value></data></array></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array of arrays' : function (err, value) {
         assert.isArray(value, 'array')
@@ -37,7 +37,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><array><data><value><int>178</int></value><value><string>testLevel1String</string></value><value><array><data><value><string>testString</string></value><value><int>64</int></value></data></array></value><value><string>testLevel1StringAfter</string></value></data></array></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array of arrays' : function (err, value) {
         assert.isArray(value, 'array')
@@ -50,7 +50,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><boolean>1</boolean></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array with a true value' : function (err, value) {
         assert.typeOf(value, 'boolean')
@@ -62,7 +62,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><boolean>0</boolean></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array with a false value' : function (err, value) {
         assert.typeOf(value, 'boolean')
@@ -75,7 +75,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><dateTime.iso8601>20120608T11:35:10</dateTime.iso8601></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the Date object' : function (err, value) {
         assert.typeOf(value, 'date')
@@ -88,7 +88,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><double>4.11</double></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the positive double' : function (err, value) {
         assert.isNumber(value)
@@ -100,7 +100,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><double>-4.2221</double></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the positive double' : function (err, value) {
         assert.isNumber(value)
@@ -113,7 +113,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><int>4</int></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the positive integer' : function (err, value) {
         assert.isNumber(value)
@@ -125,7 +125,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><i4>6</i4></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the positive integer' : function (err, value) {
         assert.isNumber(value)
@@ -137,7 +137,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><int>-14</int></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the negative integer' : function (err, value) {
         assert.isNumber(value)
@@ -149,7 +149,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><i4>-26</i4></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the negative integer' : function (err, value) {
         assert.isNumber(value)
@@ -161,7 +161,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><int>0</int></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the value 0' : function (err, value) {
         assert.isNumber(value)
@@ -173,7 +173,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><i4>0</i4></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the value 0' : function (err, value) {
         assert.isNumber(value)
@@ -186,7 +186,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><string>testString</string></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains an array with the string' : function (err, value) {
         assert.isString(value)
@@ -199,7 +199,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><struct><member><name>the-Name</name><value><string>testValue</string></value></member></struct></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the object' : function (err, value) {
         assert.isObject(value)
@@ -211,7 +211,7 @@ vows.describe('XML-RPC Parser').addBatch({
         var xml = '<methodResponse><params>'
           + '<param><value><struct><member><name>theName</name><value><string>testValue</string></value></member><member><name>anotherName</name><value><struct><member><name>nestedName</name><value><string>nestedValue</string></value></member></struct></value></member><member><name>lastName</name><value><string>Smith</string></value></member></struct></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the objects' : function (err, value) {
         assert.isObject(value)
@@ -230,7 +230,7 @@ vows.describe('XML-RPC Parser').addBatch({
             + '</data></array></value>'
           + '</data></array></value></param>'
           + '</params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the objects' : function (err, value) {
         assert.isArray(value)
@@ -248,7 +248,7 @@ vows.describe('XML-RPC Parser').addBatch({
   , 'with a response that ROS would give' : {
       topic: function() {
         var xml = '<?xml version=\'1.0\'?><methodResponse><params><param><value><array><data><value><int>1</int></value><value><string>current system state</string></value><value><array><data><value><array><data><value><array><data><value><string>/rosout_agg</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value><value><array><data><value><array><data><value><string>/rosout/set_logger_level</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value><value><array><data><value><string>/rosout/get_loggers</string></value><value><array><data><value><string>/rosout</string></value></data></array></value></data></array></value></data></array></value></data></array></value></data></array></value></param></params></methodResponse>'
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the objects' : function (err, value) {
         assert.isArray(value)
@@ -302,7 +302,7 @@ vows.describe('XML-RPC Parser').addBatch({
           , '</params>'
           , '</methodResponse>'
           ].join('\n')
-        xmlrpcParser.parseResponseXml(xml, this.callback)
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
     , 'contains the objects' : function (err, value) {
         assert.isArray(value)

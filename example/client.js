@@ -10,7 +10,7 @@ server.on('getSystemState', function (err, params, callback) {
 setTimeout(function () {
   var client = xmlrpc.createClient({ host: 'localhost', port: 11311, path: '/'})
   client.call('getSystemState', '/', function (err, value) {
-    console.log(value)
+    console.log('Response from call: ' + value)
   })
 }, 1000)
 

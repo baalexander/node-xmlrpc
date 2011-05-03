@@ -197,13 +197,13 @@ vows.describe('XML-RPC Parser').addBatch({
   , 'with a Struct param' : {
       topic: function() {
         var xml = '<methodResponse><params>'
-          + '<param><value><struct><member><name>theName</name><value><string>testValue</string></value></member></struct></value></param>'
+          + '<param><value><struct><member><name>the-Name</name><value><string>testValue</string></value></member></struct></value></param>'
           + '</params></methodResponse>'
         xmlrpcParser.parseResponseXml(xml, this.callback)
       }
     , 'contains the object' : function (err, value) {
         assert.isObject(value)
-        assert.deepEqual(value, { theName: 'testValue'})
+        assert.deepEqual(value, { 'the-Name': 'testValue'})
       }
     }
   , 'with a nested Struct param' : {
@@ -316,19 +316,131 @@ vows.describe('XML-RPC Parser').addBatch({
   // Test parseMethodCall functionality
   //////////////////////////////////////////////////////////////////////
 , 'A parseMethodCall call' : {
-    // Test String
-    'with a String param' : {
+    // Test Array
+    'with a Array param' : {
       topic: function() {
-        var xml = '<methodCall><methodName>testMethod</methodName><params>'
+        var xml = '<methodCall><methodName>testArrayMethod</methodName><params>'
+          + '<param><value><array><data><value><string>val1</string></value><value><int>99</int></value></data></array></value></param>'
+          + '<param><value><array><data><value><array><data><value><boolean>0</boolean></value></data></array></value></data></array></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and arrays' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testArrayMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [['val1', 99], [[false]]])
+      }
+    }
+    // Test Boolean
+  , 'with a Boolean param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testBooleanMethod</methodName><params>'
+          + '<param><value><boolean>1</boolean></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and a true boolean value' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testBooleanMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [true])
+      }
+    }
+    // Test DateTime
+  , 'with a DateTime param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testDateTimeMethod</methodName><params>'
+          + '<param><value><dateTime.iso8601>20000608T09:35:10</dateTime.iso8601></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and the DateTime object' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testDateTimeMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [new Date(2000, 05, 08, 09, 35, 10)])
+      }
+    }
+    // Test Double
+  , 'with a Double param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testDoubleMethod</methodName><params>'
+          + '<param><value><double>1.22</double></value></param>'
+          + '<param><value><double>4.26</double></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and multiple double values' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testDoubleMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [1.22, 4.26])
+      }
+    }
+    // Test Int
+  , 'with a Integer param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testIntegerMethod</methodName><params>'
+          + '<param><value><int>1</int></value></param>'
+          // Not a typo, making sure converts the double to an int when
+          // parsing
+          + '<param><value><int>2.26</int></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and multiple Integer values' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testIntegerMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [1, 2])
+      }
+    }
+    // Test String
+  , 'with a String param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testStringMethod</methodName><params>'
           + '<param><value><string>testString</string></value></param>'
           + '</params></methodCall>'
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and the String' : function (err, method, params) {
         assert.isString(method)
-        assert.strictEqual(method, 'testMethod')
+        assert.strictEqual(method, 'testStringMethod')
         assert.isArray(params)
         assert.deepEqual(params, ['testString'])
+      }
+    }
+  , 'with multiple String params' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testMultipleStringMethod</methodName><params>'
+          + '<param><value><string>testString1</string></value></param>'
+          + '<param><value><string>testString2</string></value></param>'
+          + '<param><value><string>testString3</string></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and the Strings' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testMultipleStringMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, ['testString1', 'testString2', 'testString3'])
+      }
+    }
+    // Test Struct
+  , 'with multiple Struct params' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testMultipleStructMethod</methodName><params>'
+          + '<param><value><struct><member><name>theName</name><value><string>atestValue</string></value></member><member><name>anotherName</name><value><struct><member><name>nestedName2</name><value><string>nestedValue</string></value></member></struct></value></member><member><name>lastName</name><value><string>Smith</string></value></member></struct></value></param>'
+          + '<param><value><struct><member><name>ima-name</name><value><string>testString</string></value></member></struct></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and the objects' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testMultipleStructMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, [{ theName: 'atestValue', anotherName: {nestedName2: 'nestedValue' }, lastName: 'Smith'}, { 'ima-name': 'testString'}])
       }
     }
   }

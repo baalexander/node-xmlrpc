@@ -1,8 +1,11 @@
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, 'localhost');
+var http   = require('http')
+  , xmlrpc = require('../lib/node-xmlrpc.js')
 
-console.log('Started the Parameter Server');
+
+var server = xmlrpc.createServer({ host: 'localhost', port: 11311 })
+server.on('dosomething', function (err, params) {
+  console.log(params)
+})
+
+console.log('listening to localhost:8090')
 

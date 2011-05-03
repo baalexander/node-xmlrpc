@@ -3,7 +3,9 @@ var vows         = require('vows')
   , xmlrpcParser = require('../lib/xmlrpc-parser.js')
 
 vows.describe('XML-RPC Parser').addBatch({
+  //////////////////////////////////////////////////////////////////////
   // Test parseResponseXml functionality
+  //////////////////////////////////////////////////////////////////////
   'A parseResponseXml call' : {
     // Test Array
     'with an Array param' : {
@@ -308,7 +310,27 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(value, expected)
       }
     }
+  }
 
+  //////////////////////////////////////////////////////////////////////
+  // Test parseMethodCall functionality
+  //////////////////////////////////////////////////////////////////////
+, 'A parseMethodCall call' : {
+    // Test String
+    'with a String param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testMethod</methodName><params>'
+          + '<param><value><string>testString</string></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and the String' : function (err, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testMethod')
+        assert.isArray(params)
+        assert.deepEqual(params, ['testString'])
+      }
+    }
   }
 
 }).export(module)

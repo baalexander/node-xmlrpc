@@ -1,4 +1,4 @@
-### The What
+## The What
 
 node-xmlrpc is a pure JavaScript XML-RPC server and client.
 
@@ -10,20 +10,20 @@ XML-RPC server, receiving method calls and responding with method responses, or
 as an XML-RPC client, making method calls and receiving method responses, or as
 both.
 
-### The Why (XML-RPC and JavaScript? Seriously??)
+## The Why (XML-RPC and JavaScript? Seriously??)
 
 In short, there's still lots of systems out there that require XML-RPC.
 
-### The How
+## The How
 
-#### To Install
+### To Install
 
 I will be testing with non-JavaScript XML-RPC servers and clients to make sure
 there's no incompatibilities. Once that finishes, node-xmlrpc will be released
 as an NPM package. In the mean time, you can download this git repo and place it
 in your project's node_modules directory.
 
-#### To Use
+### To Use
 
 The client-server.js in the example directory has an nicely commented example of
 using node-xmlrpc as an XML-RPC server and client (they even talk to each
@@ -72,7 +72,7 @@ Method call params for 'anAction': aParam
 Method response for 'anAction': aResult
 ```
 
-#### To Test
+### To Test
 
 As XML-RPC must be precise so there are an extensive set of test cases in the test directory. [Vows](http://vowsjs.org/) is used for testing.
 

@@ -3,7 +3,9 @@ var vows          = require('vows')
   , xmlrpcBuilder = require('../lib/xmlrpc-builder.js')
 
 vows.describe('XML-RPC Builder').addBatch({
+  //////////////////////////////////////////////////////////////////////
   // Test buildMethodCall functionality
+  //////////////////////////////////////////////////////////////////////
   'A buildMethodCall call' : {
     // Test String
     'with a regular String param' : {
@@ -135,6 +137,75 @@ vows.describe('XML-RPC Builder').addBatch({
       }
     , 'contains the struct' : function (err, xml) {
         assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><struct><member><name>stringName</name><value><string>string1</string></value></member><member><name>objectName</name><value><struct><member><name>intName</name><value><int>4</int></value></member></struct></value></member></struct></value></param></params></methodCall>')
+      }
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////
+  // Test buildMethodResponse functionality
+  //////////////////////////////////////////////////////////////////////
+, 'A buildMethodResponse call' : {
+    // Test Array
+    'with an Array param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(['string1', 3], this.callback)
+      }
+    , 'contains the array' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><array><data><value><string>string1</string></value><value><int>3</int></value></data></array></value></param></params></methodResponse>')
+      }
+    }
+    // Test Boolean
+  , 'with a true Boolean param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(true, this.callback)
+      }
+    , 'contains the value 1' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><boolean>1</boolean></value></param></params></methodResponse>')
+      }
+    }
+    // Test Datetime
+  , 'with a Datetime param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(new Date(2012, 07, 07, 11, 35, 10), this.callback)
+      }
+    , 'contains the timestamp' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><dateTime.iso8601>20120807T11:35:10</dateTime.iso8601></value></param></params></methodResponse>')
+      }
+    }
+    // Test Double
+  , 'with a positive Double param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(17.5, this.callback)
+      }
+    , 'contains the double' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><double>17.5</double></value></param></params></methodResponse>')
+      }
+    }
+    // Test Integer
+  , 'with a positive Interger param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(17, this.callback)
+      }
+    , 'contains the Integer' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><int>17</int></value></param></params></methodResponse>')
+      }
+    }
+    // Test String
+  , 'with a regular String param' : {
+      topic: function() {
+        xmlrpcBuilder.buildMethodResponse('testString', this.callback)
+      }
+    , 'contains the string' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><string>testString</string></value></param></params></methodResponse>')
+      }
+    }
+    // Test Struct
+  , 'with a one-level struct' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse({stringName: 'string1', intName: 3}, this.callback)
+      }
+    , 'contains the struct' : function (err, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><struct><member><name>stringName</name><value><string>string1</string></value></member><member><name>intName</name><value><int>3</int></value></member></struct></value></param></params></methodResponse>')
       }
     }
   }

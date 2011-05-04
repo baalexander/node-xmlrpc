@@ -211,3 +211,4 @@ vows.describe('XML-RPC Builder').addBatch({
   }
 
 }).export(module)
+

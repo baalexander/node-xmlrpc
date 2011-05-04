@@ -1,11 +1,10 @@
 /**
- * The purpose of this example is to demonstrate an XML-RPC client
- * interacting with an XML-RPC server. Both client and server are using
- * node-xmlrpc.
+ * The purpose of this example is to demonstrate an XML-RPC client interacting
+ * with an XML-RPC server. Both client and server are using node-xmlrpc.
  *
- * The XML-RPC server is a basic parameter server. It exposes getter and
- * setter methods to get and set different data types. The XML-RPC
- * client can then set and get these values using method calls.
+ * The XML-RPC server is a basic parameter server. It exposes getter and setter
+ * methods to get and set different data types. The XML-RPC client can then set
+ * and get these values using method calls.
  */
 
 var xmlrpc = require('../lib/node-xmlrpc.js')
@@ -15,9 +14,8 @@ var xmlrpc = require('../lib/node-xmlrpc.js')
 // The XML-RPC Server
 ////////////////////////////////////////////////////////////////////////
 
-// To simulate a simple parameter server, where values can be setted and
-// getted through XML-RPC, the contents of the calls are stored in an
-// object
+// To simulate a simple parameter server, where values can be setted and getted
+// through XML-RPC, the contents of the calls are stored in an object
 var serverContents = {
   calls: []
 , arrayValue: null
@@ -30,8 +28,7 @@ var serverContents = {
 }
 
 // Creates an XML-RPC server to listen to XML-RPC method calls
-// To use an HTTPS server instead, use createSecureServer (still in
-// testing):
+// To use an HTTPS server instead, use createSecureServer (still in testing):
 // var server = xmlrpc.createSecureServer({ host: 'localhost', port: 443})
 var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })
 
@@ -118,13 +115,12 @@ server.on('getCallLog', function (err, params, callback) {
 // The XML-RPC Client
 ////////////////////////////////////////////////////////////////////////
 
-// Waits briefly to give the XML-RPC server time to start up and start
-// listening
+// Waits briefly to give the XML-RPC server time to start up and start listening
 setTimeout(function () {
-  // Creates an XML-RPC client. Passes the host information on where to
-  // make the XML-RPC calls.
-  // To use HTTPS to make the call, use createSecureClient instead
-  // (still in testing):
+  // Creates an XML-RPC client. Passes the host information on where to make the
+  // XML-RPC calls.
+  // To use HTTPS to make the call, use createSecureClient instead (still in
+  // testing):
   // var client = xmlrpc.createSecureClient({ host: 'localhost', port: 443, path: '/'})
   var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
 

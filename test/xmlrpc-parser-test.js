@@ -446,3 +446,4 @@ vows.describe('XML-RPC Parser').addBatch({
   }
 
 }).export(module)
+

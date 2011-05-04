@@ -31,6 +31,8 @@ var serverContents = {
 }
 
 // Creates an XML-RPC server to listen to XML-RPC method calls
+// To use an HTTPS server instead, use createSecureServer:
+// var server = xmlrpc.createSecureServer({ host: 'localhost', port: 443})
 var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })
 
 // Handle method calls by listening for events with the method call name
@@ -121,6 +123,8 @@ server.on('getCallLog', function (err, params, callback) {
 setTimeout(function () {
   // Creates an XML-RPC client. Passes the host information on where to
   // make the XML-RPC calls.
+  // To use HTTPS to make the call, use createSecureClient instead:
+  // var client = xmlrpc.createSecureClient({ host: 'localhost', port: 443, path: '/'})
   var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
 
   client.call('setArray', [['value1', 'value2']], function (error, value) {})

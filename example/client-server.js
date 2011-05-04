@@ -8,8 +8,7 @@
  * client can then set and get these values using method calls.
  */
 
-var http   = require('http')
-  , xmlrpc = require('../lib/node-xmlrpc.js')
+var xmlrpc = require('../lib/node-xmlrpc.js')
 
 
 ////////////////////////////////////////////////////////////////////////

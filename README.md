@@ -82,3 +82,7 @@ To run (from node-xmlrpc root directory):
 
 If submitting a bug fix, please update the appropriate test file too.
 
+## License (MIT)
+
+Released under the MIT license. See the LICENSE file for the complete wording.
+

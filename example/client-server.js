@@ -109,6 +109,11 @@ server.on('getCallLog', function (err, params, callback) {
   serverContents.calls.push('getCallLog')
   callback(null, serverContents.calls)
 })
+// Return a fault message
+server.on('fakeFault', function (error, params, callback) {
+  serverContents.calls.push('fakeFault')
+  callback({ faultCode: 2, faultString: 'Uh oh.'}, null)
+})
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -158,6 +163,11 @@ setTimeout(function () {
   client.call('getStruct', null, function (error, value) {
     console.log('Get Struct Response (on next line): ')
     console.log(value)
+  })
+
+  client.call('fakeFault', null, function (error, value) {
+    console.log('Fake Fault Response as Error (on next line): ')
+    console.log(error)
   })
 
   client.call('getCallLog', null, function (error, value) {

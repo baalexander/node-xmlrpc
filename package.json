@@ -1,0 +1,27 @@
+{ "name" : "xmlrpc"
+, "description" : "A pure JavaScript XML-RPC client and server."
+, "keywords" : [ "xml-rpc", "xmlrpc", "xml", "rpc" ]
+, "version" : "0.7.0"
+, "preferGlobal" : false
+, "homepage" : "https://github.com/baalexander/node-xmlrpc"
+, "author" : "Brandon Alexander <baalexander@gmail.com> (https://github.com/baalexander)"
+, "repository" :
+  { "type" : "git"
+  , "url" : "git://github.com/baalexander/node-xmlrpc.git"
+  }
+, "bugs" : { "web" : "https://github.com/baalexander/node-xmlrpc/issues" }
+, "directories" : { "lib" : "./lib" }
+, "main" : "./lib/node-xmlrpc.js"
+, "dependencies" :
+  { "node-xml"   : "1.0.0"
+  , "xmlbuilder" : "0.1.0"
+  }
+, "devDependencies" : { "vows" : ">=0.5.8" }
+, "engines" : { "node" : ">=0.4, "npm" : ">=1.0.0" }
+, "licenses" :
+  [ { "type" : "MIT"
+    , "url" : "https://github.com/baalexander/node-xmlrpc/raw/master/LICENSE"
+    }
+  ]
+}
+

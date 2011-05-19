@@ -18,10 +18,9 @@ In short, there's still lots of systems out there that require XML-RPC.
 
 ### To Install
 
-I will be testing with non-JavaScript XML-RPC servers and clients to make sure
-there's no incompatibilities. Once that finishes, node-xmlrpc will be released
-as an NPM package. In the mean time, you can download this git repo and place it
-in your project's node_modules directory.
+```bash
+npm install xmlrpc
+```
 
 ### To Use
 
@@ -82,7 +81,7 @@ To run (from node-xmlrpc root directory):
 
 If submitting a bug fix, please update the appropriate test file too.
 
-## License (MIT)
+## The License (MIT)
 
 Released under the MIT license. See the LICENSE file for the complete wording.
 

@@ -31,7 +31,7 @@ other!).
 A brief example:
 
 ```javascript
-var xmlrpc = require('../lib/node-xmlrpc.js')
+var xmlrpc = require('xmlrpc')
 
 // Creates an XML-RPC server to listen to XML-RPC method calls
 var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })

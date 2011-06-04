@@ -102,6 +102,22 @@ vows.describe('XML-RPC Builder').addBatch({
         assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><string>testString</string></value></param></params></methodCall>')
       }
     }
+  , 'with a String param that requires CDATA' : {
+      topic: function() {
+        xmlrpcBuilder.buildMethodCall('testCDATAMethod', ['<html><body>Congrats</body></html>'], this.callback)
+      }
+    , 'contains the CDATA-wrapped string' : function (error, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testCDATAMethod</methodName><params><param><value><string><![CDATA[<html><body>Congrats</body></html>]]></string></value></param></params></methodCall>')
+      }
+    }
+  , 'with a multi-line String param that requires CDATA' : {
+      topic: function() {
+        xmlrpcBuilder.buildMethodCall('testCDATAMethod', ['<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>'], this.callback)
+      }
+    , 'contains the CDATA-wrapped string' : function (error, xml) {
+        assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testCDATAMethod</methodName><params><param><value><string><![CDATA[<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>]]></string></value></param></params></methodCall>')
+      }
+    }
     // FIXME Empty string causes warnings. Need to figure out what's the
     // spec way to define an empty string
   , 'with an empty String param' : {

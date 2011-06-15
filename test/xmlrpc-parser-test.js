@@ -440,6 +440,27 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, ['testString1', 'testString2', 'testString3'])
       }
     }
+  , 'with a String param and newlines in xml' : {
+      topic: function() {
+        var xml = ['<?xml version=\'1.0\'?>'
+          , '<methodCall>'
+          , '<methodName>getPublications</methodName>'
+          , '<params>'
+          , '<param>'
+          , '<value><string>/ohyeah</string></value>'
+          , '</param>'
+          , '</params>'
+          , '</methodCall>'
+          ].join('\n')
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains method name and the String' : function (error, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'getPublications')
+        assert.isArray(params)
+        assert.deepEqual(params, ['/ohyeah'])
+      }
+    }
     // Test Struct
   , 'with multiple Struct params' : {
       topic: function() {

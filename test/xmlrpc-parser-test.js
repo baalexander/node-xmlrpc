@@ -201,9 +201,21 @@ vows.describe('XML-RPC Parser').addBatch({
           + '</params></methodResponse>'
         xmlrpcParser.parseMethodResponse(xml, this.callback)
       }
-    , 'contains an array with the string' : function (error, value) {
+    , 'contains the string' : function (error, value) {
         assert.isString(value)
         assert.strictEqual(value, 'testString')
+      }
+    }
+  , 'with an empty String param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><string/></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+      }
+    , 'contains the empty string' : function (error, value) {
+        assert.isString(value)
+        assert.strictEqual(value, '')
       }
     }
     // Test Struct

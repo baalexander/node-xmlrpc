@@ -118,8 +118,6 @@ vows.describe('XML-RPC Builder').addBatch({
         assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testCDATAMethod</methodName><params><param><value><string><![CDATA[<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>]]></string></value></param></params></methodCall>')
       }
     }
-    // FIXME Empty string causes warnings. Need to figure out what's the
-    // spec way to define an empty string
   , 'with an empty String param' : {
       topic: function () {
         xmlrpcBuilder.buildMethodCall('testMethod', [''], this.callback)

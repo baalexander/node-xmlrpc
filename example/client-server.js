@@ -129,48 +129,48 @@ setTimeout(function () {
   // var client = xmlrpc.createSecureClient({ host: 'localhost', port: 443, path: '/'})
   var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
 
-  client.call('setArray', [['value1', 'value2']], function (error, value) {})
-  client.call('getArray', null, function (error, value) {
+  client.methodCall('setArray', [['value1', 'value2']], function (error, value) {})
+  client.methodCall('getArray', null, function (error, value) {
     console.log('Get Array Response: ' + value)
   })
 
-  client.call('setBoolean', [true], function (error, value) {})
-  client.call('getBoolean', null, function (error, value) {
+  client.methodCall('setBoolean', [true], function (error, value) {})
+  client.methodCall('getBoolean', null, function (error, value) {
     console.log('Get Boolean Response: ' + value)
   })
 
-  client.call('setDate', [new Date(2016, 05, 08, 11, 35, 10)], function (error, value) {})
-  client.call('getDate', null, function (error, value) {
+  client.methodCall('setDate', [new Date(2016, 05, 08, 11, 35, 10)], function (error, value) {})
+  client.methodCall('getDate', null, function (error, value) {
     console.log('Get Date Response: ' + value)
   })
 
-  client.call('setDouble', [24.99], function (error, value) {})
-  client.call('getDouble', null, function (error, value) {
+  client.methodCall('setDouble', [24.99], function (error, value) {})
+  client.methodCall('getDouble', null, function (error, value) {
     console.log('Get Double Response: ' + value)
   })
 
-  client.call('setInteger', [23], function (error, value) {})
-  client.call('getInteger', null, function (error, value) {
+  client.methodCall('setInteger', [23], function (error, value) {})
+  client.methodCall('getInteger', null, function (error, value) {
     console.log('Get Integer Response: ' + value)
   })
 
-  client.call('setString', ['testString1'], function (error, value) {})
-  client.call('getString', null, function (error, value) {
+  client.methodCall('setString', ['testString1'], function (error, value) {})
+  client.methodCall('getString', null, function (error, value) {
     console.log('Get String Response: ' + value)
   })
 
-  client.call('setStruct', [{ nameOfValue: 'Go 1998!' }], function (error, value) {})
-  client.call('getStruct', null, function (error, value) {
+  client.methodCall('setStruct', [{ nameOfValue: 'Go 1998!' }], function (error, value) {})
+  client.methodCall('getStruct', null, function (error, value) {
     console.log('Get Struct Response (on next line): ')
     console.log(value)
   })
 
-  client.call('fakeFault', null, function (error, value) {
+  client.methodCall('fakeFault', null, function (error, value) {
     console.log('Fake Fault Response as Error (on next line): ')
     console.log(error)
   })
 
-  client.call('getCallLog', null, function (error, value) {
+  client.methodCall('getCallLog', null, function (error, value) {
     console.log('Get Call Log Response: ' + value)
   })
 

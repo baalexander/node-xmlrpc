@@ -55,7 +55,7 @@ setTimeout(function () {
   var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
 
   // Sends a method call to the XML-RPC server
-  client.call('anAction', ['aParam'], function (error, value) {
+  client.methodCall('anAction', ['aParam'], function (error, value) {
     // Results of the method response
     console.log('Method response for \'anAction\': ' + value)
   })

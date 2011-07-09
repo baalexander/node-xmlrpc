@@ -11,7 +11,7 @@ vows.describe('Client').addBatch({
     'with an invalid internal URI' : {
       topic: function () {
         var client = new Client({ host: 'localhost', port: 9999, path: '/'}, false)
-        client.call('getArray', null, this.callback)
+        client.methodCall('getArray', null, this.callback)
       }
     , 'contains the error' : function (error, value) {
         assert.isObject(error)

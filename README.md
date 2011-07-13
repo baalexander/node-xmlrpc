@@ -1,18 +1,14 @@
 ## The What
 
-node-xmlrpc is a pure JavaScript XML-RPC server and client.
+The xmlrpc module is a pure JavaScript XML-RPC server and client for node.js.
 
 Pure JavaScript means that the [XML
 parsing](https://github.com/robrighter/node-xml) and [XML
 building](https://github.com/robrighter/node-xml) use pure JavaScript libraries,
-so no extra C dependencies or build requirements. node-xmlrpc can be used as an
-XML-RPC server, receiving method calls and responding with method responses, or
-as an XML-RPC client, making method calls and receiving method responses, or as
-both.
-
-## The Why (XML-RPC and JavaScript? Seriously??)
-
-In short, there's still lots of systems out there that require XML-RPC.
+so no extra C dependencies or build requirements. The xmlrpc module can be used
+as an XML-RPC server, receiving method calls and responding with method
+responses, or as an XML-RPC client, making method calls and receiving method
+responses, or as both.
 
 ## The How
 
@@ -25,8 +21,7 @@ npm install xmlrpc
 ### To Use
 
 The client-server.js in the example directory has an nicely commented example of
-using node-xmlrpc as an XML-RPC server and client (they even talk to each
-other!).
+using xmlrpc as an XML-RPC server and client (they even talk to each other!).
 
 A brief example:
 

@@ -1,7 +1,7 @@
 { "name" : "xmlrpc"
 , "description" : "A pure JavaScript XML-RPC client and server."
 , "keywords" : [ "xml-rpc", "xmlrpc", "xml", "rpc" ]
-, "version" : "0.6.2"
+, "version" : "0.7.0"
 , "preferGlobal" : false
 , "homepage" : "https://github.com/baalexander/node-xmlrpc"
 , "author" : "Brandon Alexander <baalexander@gmail.com> (https://github.com/baalexander)"

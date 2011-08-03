@@ -79,6 +79,7 @@ vows.describe('Client').addBatch({
     }
     // Test long method response, which requires multiple chunks returned from
     // the http request
+    // Only one test relying on HTTP server can be used. See Issue #20.
   /*, 'with a very long response' : {
       topic: function () {
         var that = this

@@ -1,3 +1,9 @@
+## 0.7.1 / 2011-08-02
+
+ * Handles chunked method responses.
+ * Fixes parsing multi-line strings values in the String parameter.
+ * Allows for custom headers in the HTTP request.
+
 ## 0.7.0 / 2011-07-12
 
  * Renames Client.call() to Client.methodCall().

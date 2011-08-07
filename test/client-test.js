@@ -29,6 +29,17 @@ vows.describe('Client').addBatch({
         assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: { 'User-Agent': 'Testaroo', 'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==', 'Content-Type': 'text/xml', 'Accept': 'text/xml', 'Accept-Charset' : 'UTF8'}})
       }
     }
+    // Test passing HTTP Basic authentication credentials
+  , 'with basic auth passed' : {
+      topic: function () {
+        var client = new Client({ basic_auth: { user: 'john', pass: '12345' } }, false)
+        return client.options.headers
+      }
+    , 'correctly encodes and sets the \'Authorization\' header' : function (topic) {
+        assert.isNotNull(topic.Authorization)
+        assert.equal(topic.Authorization, "Basic am9objoxMjM0NQ==")
+      }
+    }
   }
   //////////////////////////////////////////////////////////////////////
   // Test method call functionality

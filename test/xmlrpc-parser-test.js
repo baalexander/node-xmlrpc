@@ -117,7 +117,14 @@ vows.describe('XML-RPC Parser').addBatch({
       }
     , 'contains the error object' : function (error, value) {
         assert.isObject(error)
-        assert.deepEqual(error, { faultCode: 4, faultString: 'Too many parameters.'})
+        assert.instanceOf(error, Error)
+        // Avoids Deep Equal of error because stack includes local paths
+        assert.include(error, 'stack')
+        console.log(error)
+        console.log(error.message)
+        assert.strictEqual(error.message, 'Too many parameters.')
+        assert.strictEqual(error.faultString, 'Too many parameters.')
+        assert.strictEqual(error.faultCode, 4)
       }
     }
     // Test Integer

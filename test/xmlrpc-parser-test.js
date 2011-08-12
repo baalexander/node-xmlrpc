@@ -20,6 +20,18 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(value, [178, 'testString'])
       }
     }
+  , 'with an empty Array param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><array><data></data></array></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains an empty array' : function (error, value) {
+        assert.isArray(value, 'array')
+        assert.deepEqual(value, [])
+      }
+    }
   , 'with a nested Array param' : {
       topic: function() {
         var xml = '<methodResponse><params>'
@@ -120,8 +132,6 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.instanceOf(error, Error)
         // Avoids Deep Equal of error because stack includes local paths
         assert.include(error, 'stack')
-        console.log(error)
-        console.log(error.message)
         assert.strictEqual(error.message, 'Too many parameters.')
         assert.strictEqual(error.faultString, 'Too many parameters.')
         assert.strictEqual(error.faultCode, 4)

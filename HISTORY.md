@@ -1,3 +1,12 @@
+
+## 0.8.0 / 2011-08-14
+
+ * Supports HTTPS server and client.
+ * Improves Basic Auth support.
+ * Errors returned are now an instance of Error, not a String.
+ * Fixes bug with structs and whitespace.
+ * Fixes bug with empty arrays responses.
+
 ## 0.7.1 / 2011-08-02
 
  * Handles chunked method responses.

@@ -7,7 +7,8 @@
  * and get these values using method calls.
  */
 
-var xmlrpc = require('../lib/node-xmlrpc.js')
+var fs     = require('fs')
+  , xmlrpc = require('../lib/node-xmlrpc.js')
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -27,10 +28,23 @@ var serverContents = {
 , structValue: null
 }
 
-// Creates an XML-RPC server to listen to XML-RPC method calls
-// To use an HTTPS server instead, use createSecureServer (still in testing):
-// var server = xmlrpc.createSecureServer({ host: 'localhost', port: 443})
-var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })
+// Creates an XML-RPC server to listen for XML-RPC method calls
+var serverOptions = {
+  host: 'localhost'
+, port: 9090
+}
+var server = xmlrpc.createServer(serverOptions)
+
+// To use an HTTPS server instead, use createSecureServer:
+/*
+var secureServerOptions = {
+  host: 'localhost'
+, port: 443
+, key:  fs.readFileSync('./test-key.pem')
+, cert: fs.readFileSync('./test-cert.pem')
+}
+var server = xmlrpc.createSecureServer(secureServerOptions)
+*/
 
 // Handle method calls by listening for events with the method call name
 // Array handling
@@ -124,10 +138,22 @@ server.on('fakeFault', function (error, params, callback) {
 setTimeout(function () {
   // Creates an XML-RPC client. Passes the host information on where to make the
   // XML-RPC calls.
-  // To use HTTPS to make the call, use createSecureClient instead (still in
-  // testing):
-  // var client = xmlrpc.createSecureClient({ host: 'localhost', port: 443, path: '/'})
-  var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
+  var clientOptions = {
+    host: 'localhost'
+  , port: 9090
+  , path: '/'
+  }
+  var client = xmlrpc.createClient(clientOptions)
+
+  // To use HTTPS to make the call, use createSecureClient instead:
+  /*
+  var secureClientOptions = {
+    host: 'localhost'
+  , port: 443
+  , path: '/'
+  }
+  var client = xmlrpc.createSecureClient(secureClientOptions)
+  */
 
   client.methodCall('setArray', [['value1', 'value2']], function (error, value) {})
   client.methodCall('getArray', null, function (error, value) {

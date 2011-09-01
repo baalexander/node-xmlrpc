@@ -481,17 +481,18 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, ['testString1', 'testString2', 'testString3'])
       }
     }
-  // provided by DracoBlue on issue #18
   , 'with a multiline String param' : {
       topic: function() {
-        var xml = '<methodResponse><params>'
+        var xml = '<methodCall><methodName>testMultilineStringParam</methodName><params>'
           + '<param><value><string>test\n\n&lt;test&gt;</string></value></param>'
-          + '</params></methodResponse>'
-        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
       }
-    , 'contains the multiline string' : function (error, value) {
-        assert.isString(value)
-        assert.strictEqual(value, 'test\n\n<test>')
+    , 'contains the multiline string' : function (error, method, params) {
+        assert.isString(method)
+        assert.strictEqual(method, 'testMultilineStringParam')
+        assert.isArray(params)
+        assert.deepEqual(params, ['test\n\n<test>'])
       }
     }
   , 'with a String param and newlines in xml' : {

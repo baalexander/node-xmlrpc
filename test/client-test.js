@@ -55,28 +55,52 @@ vows.describe('Client').addBatch({
         assert.isObject(error)
       }
     }
-  , 'with a chunked response' : {
+  , 'with no host specified' : {
       topic: function () {
         var that = this
         // Basic http server that sends a chunked XML response
-        http.createServer(function (request, result) {
-          fs.readFile(__dirname + '/listMethods.xml', function (error, data) {
-            result.writeHead(200, {'Content-Type': 'text/xml'})
-            var chunk1 = '<?xml version="2.0" encoding="UTF-8"?>'
+        http.createServer(function (request, response) {
+            response.writeHead(200, {'Content-Type': 'text/xml'})
+            var data = '<?xml version="2.0" encoding="UTF-8"?>'
               + '<methodResponse>'
               + '<params>'
-              + '<param><value><array><data>'
-              + '<value><string>system.listMethods</string></value>'
-              + '<value><string>system.methodSignature</string></value>'
-            var chunk2 = '<value><string>xmlrpc_dialect</string></value>'
-              + '</data></array></value></param>'
+              + '<param><value><string>system.listMethods</string></value></param>'
               + '</params>'
               + '</methodResponse>'
-            result.write(chunk1)
-            result.write(chunk2)
-            result.end()
-          });
-        }).listen(9090, 'localhost');
+            response.write(data)
+            response.end()
+        }).listen(9090, 'localhost')
+        // Waits briefly to give the server time to start up and start listening
+        setTimeout(function () {
+          var client = new Client({ port: 9090, path: '/'}, false)
+          client.methodCall('listMethods', null, that.callback)
+        }, 500)
+      }
+    , 'contains the string' : function (error, value) {
+        assert.isNull(error)
+        assert.deepEqual(value, 'system.listMethods')
+      }
+    }
+  /* , 'with a chunked response' : {
+      topic: function () {
+        var that = this
+        // Basic http server that sends a chunked XML response
+        http.createServer(function (request, response) {
+          response.writeHead(200, {'Content-Type': 'text/xml'})
+          var chunk1 = '<?xml version="2.0" encoding="UTF-8"?>'
+            + '<methodResponse>'
+            + '<params>'
+            + '<param><value><array><data>'
+            + '<value><string>system.listMethods</string></value>'
+            + '<value><string>system.methodSignature</string></value>'
+          var chunk2 = '<value><string>xmlrpc_dialect</string></value>'
+            + '</data></array></value></param>'
+            + '</params>'
+            + '</methodResponse>'
+          response.write(chunk1)
+          response.write(chunk2)
+          response.end()
+        }).listen(9090, 'localhost')
         // Waits briefly to give the server time to start up and start listening
         setTimeout(function () {
           var client = new Client({ host: 'localhost', port: 9090, path: '/'}, false)
@@ -87,11 +111,11 @@ vows.describe('Client').addBatch({
         assert.isNull(error)
         assert.deepEqual(value, ['system.listMethods', 'system.methodSignature', 'xmlrpc_dialect'])
       }
-    }
-    // Test long method response, which requires multiple chunks returned from
+    } */
+    /* // Test long method response, which requires multiple chunks returned from
     // the http request
     // Only one test relying on HTTP server can be used. See Issue #20.
-  /*, 'with a very long response' : {
+  , 'with a very long response' : {
       topic: function () {
         var that = this
         // Basic http server that sends a long XML response (stored in file to
@@ -105,8 +129,8 @@ vows.describe('Client').addBatch({
             var chunk2 = xml.substring(xml.length / 2, xml.length)
             result.write(chunk2)
             result.end()
-          });
-        }).listen(9091, 'localhost');
+          })
+        }).listen(9091, 'localhost')
         // Waits briefly to give the server time to start up and start listening
         setTimeout(function () {
           var client = new Client({ host: 'localhost', port: 9091, path: '/'}, false)
@@ -118,6 +142,6 @@ vows.describe('Client').addBatch({
         var data = fs.readFileSync(__dirname + '/listMethods.json')
         assert.deepEqual(value, JSON.parse(data))
       }
-    }*/
+    } */
   }
 }).export(module)

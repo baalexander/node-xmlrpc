@@ -33,6 +33,8 @@ var serverOptions = {
   host: 'localhost'
 , port: 9090
 }
+// Can use a String too:
+// var serverOptions = 'http://localhost:9090'
 var server = xmlrpc.createServer(serverOptions)
 
 // To use an HTTPS server instead, use createSecureServer:
@@ -143,6 +145,8 @@ setTimeout(function () {
   , port: 9090
   , path: '/'
   }
+  // Can use a String too:
+  // var clientOptions = 'http://localhost:9090'
   var client = xmlrpc.createClient(clientOptions)
 
   // To use HTTPS to make the call, use createSecureClient instead:

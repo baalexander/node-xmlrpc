@@ -19,6 +19,18 @@ vows.describe('Client').addBatch({
         assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: { 'User-Agent': 'NodeJS XML-RPC Client', 'Content-Type': 'text/xml', 'Accept': 'text/xml', 'Accept-Charset' : 'UTF8'}})
       }
     }
+    // Test passing string URI for options
+  , 'with a string URI for options' : {
+      topic: function () {
+        var client = new Client('http://localhost:9999', false)
+        return client.options
+      }
+    , 'parses the string URI into URI fields' : function (topic) {
+        assert.strictEqual(topic.host, 'localhost')
+        assert.strictEqual(topic.path, '/')
+        assert.equal(topic.port, 9999)
+      }
+    }
     // Test passing custom headers to the Client
   , 'with options containing header params' : {
       topic: function () {
@@ -55,6 +67,32 @@ vows.describe('Client').addBatch({
         assert.isObject(error)
       }
     }
+  , 'with a string URI for options' : {
+      topic: function () {
+        var that = this
+        // Basic http server that sends a chunked XML response
+        http.createServer(function (request, response) {
+            response.writeHead(200, {'Content-Type': 'text/xml'})
+            var data = '<?xml version="2.0" encoding="UTF-8"?>'
+              + '<methodResponse>'
+              + '<params>'
+              + '<param><value><string>more.listMethods</string></value></param>'
+              + '</params>'
+              + '</methodResponse>'
+            response.write(data)
+            response.end()
+        }).listen(9090, 'localhost')
+        // Waits briefly to give the server time to start up and start listening
+        setTimeout(function () {
+          var client = new Client('http://localhost:9090', false)
+          client.methodCall('listMethods', null, that.callback)
+        }, 500)
+      }
+    , 'contains the string' : function (error, value) {
+        assert.isNull(error)
+        assert.deepEqual(value, 'more.listMethods')
+      }
+    }
   , 'with no host specified' : {
       topic: function () {
         var that = this
@@ -69,10 +107,10 @@ vows.describe('Client').addBatch({
               + '</methodResponse>'
             response.write(data)
             response.end()
-        }).listen(9090, 'localhost')
+        }).listen(9091, 'localhost')
         // Waits briefly to give the server time to start up and start listening
         setTimeout(function () {
-          var client = new Client({ port: 9090, path: '/'}, false)
+          var client = new Client({ port: 9091, path: '/'}, false)
           client.methodCall('listMethods', null, that.callback)
         }, 500)
       }
@@ -81,7 +119,7 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, 'system.listMethods')
       }
     }
-  /* , 'with a chunked response' : {
+   , 'with a chunked response' : {
       topic: function () {
         var that = this
         // Basic http server that sends a chunked XML response
@@ -100,10 +138,10 @@ vows.describe('Client').addBatch({
           response.write(chunk1)
           response.write(chunk2)
           response.end()
-        }).listen(9090, 'localhost')
+        }).listen(9092, 'localhost')
         // Waits briefly to give the server time to start up and start listening
         setTimeout(function () {
-          var client = new Client({ host: 'localhost', port: 9090, path: '/'}, false)
+          var client = new Client({ host: 'localhost', port: 9092, path: '/'}, false)
           client.methodCall('listMethods', null, that.callback)
         }, 500)
       }
@@ -111,7 +149,7 @@ vows.describe('Client').addBatch({
         assert.isNull(error)
         assert.deepEqual(value, ['system.listMethods', 'system.methodSignature', 'xmlrpc_dialect'])
       }
-    } */
+    }
     /* // Test long method response, which requires multiple chunks returned from
     // the http request
     // Only one test relying on HTTP server can be used. See Issue #20.

@@ -1,4 +1,11 @@
 
+## 0.8.1 / 2011-09-01
+
+ * Supports passing the URI as a string to client or server.
+ * Host is now an optional parameter for client or server.
+ * Fixes bug when performing a method call multiple times.
+ * Removes node_modules directory. Use `npm install .` if cloning.
+
 ## 0.8.0 / 2011-08-14
 
  * Supports HTTPS server and client.

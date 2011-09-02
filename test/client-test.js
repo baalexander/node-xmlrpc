@@ -16,7 +16,14 @@ vows.describe('Client').addBatch({
         return client.options
       }
     , 'contains the standard headers' : function (topic) {
-        assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: { 'User-Agent': 'NodeJS XML-RPC Client', 'Content-Type': 'text/xml', 'Accept': 'text/xml', 'Accept-Charset' : 'UTF8'}})
+        var headers = {
+          'User-Agent': 'NodeJS XML-RPC Client'
+        , 'Content-Type': 'text/xml'
+        , 'Accept': 'text/xml'
+        , 'Accept-Charset': 'UTF8'
+        , 'Connection': 'Keep-Alive'
+        }
+        assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: headers })
       }
     }
     // Test passing string URI for options
@@ -38,7 +45,15 @@ vows.describe('Client').addBatch({
         return client.options
       }
     , 'does not overwrite the custom headers' : function (topic) {
-        assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: { 'User-Agent': 'Testaroo', 'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==', 'Content-Type': 'text/xml', 'Accept': 'text/xml', 'Accept-Charset' : 'UTF8'}})
+        var headers = {
+          'User-Agent': 'Testaroo'
+        , 'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
+        , 'Content-Type': 'text/xml'
+        , 'Accept': 'text/xml'
+        , 'Accept-Charset' : 'UTF8'
+        , 'Connection': 'Keep-Alive'
+        }
+        assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: headers })
       }
     }
     // Test passing HTTP Basic authentication credentials

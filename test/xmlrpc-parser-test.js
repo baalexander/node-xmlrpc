@@ -16,6 +16,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an array of arrays' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value, 'array')
         assert.deepEqual(value, [178, 'testString'])
       }
@@ -28,6 +29,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an empty array' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value, 'array')
         assert.deepEqual(value, [])
       }
@@ -40,6 +42,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an array of arrays' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value, 'array')
         assert.deepEqual(value, [178, 'testLevel1String', ['testString', 64]])
       }
@@ -52,6 +55,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an array of arrays' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value, 'array')
         assert.deepEqual(value, [178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'])
       }
@@ -65,6 +69,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an array with a true value' : function (error, value) {
+        assert.isNull(error)
         assert.typeOf(value, 'boolean')
         assert.strictEqual(value, true)
       }
@@ -77,6 +82,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains an array with a false value' : function (error, value) {
+        assert.isNull(error)
         assert.typeOf(value, 'boolean')
         assert.strictEqual(value, false)
       }
@@ -90,6 +96,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the Date object' : function (error, value) {
+        assert.isNull(error)
         assert.typeOf(value, 'date')
         assert.deepEqual(value, new Date(2012, 05, 08, 11, 35, 10))
       }
@@ -103,6 +110,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the positive double' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, 4.11)
       }
@@ -115,6 +123,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the positive double' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, -4.2221)
       }
@@ -146,6 +155,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the positive integer' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, 4)
       }
@@ -158,6 +168,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the positive integer' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, 6)
       }
@@ -170,6 +181,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the negative integer' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, -14)
       }
@@ -182,6 +194,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the negative integer' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, -26)
       }
@@ -194,6 +207,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the value 0' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.strictEqual(value, 0)
       }
@@ -206,6 +220,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the value 0' : function (error, value) {
+        assert.isNull(error)
         assert.isNumber(value)
         assert.deepEqual(value, 0)
       }
@@ -219,6 +234,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the string' : function (error, value) {
+        assert.isNull(error)
         assert.isString(value)
         assert.strictEqual(value, 'testString')
       }
@@ -231,6 +247,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the empty string' : function (error, value) {
+        assert.isNull(error)
         assert.isString(value)
         assert.strictEqual(value, '')
       }
@@ -244,6 +261,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the object' : function (error, value) {
+        assert.isNull(error)
         assert.isObject(value)
         assert.deepEqual(value, { 'the-Name': 'testValue'})
       }
@@ -256,6 +274,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the object' : function (error, value) {
+        assert.isNull(error)
         assert.isObject(value)
         assert.deepEqual(value, { 'the-Name': 'testValue'})
       }
@@ -268,6 +287,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the objects' : function (error, value) {
+        assert.isNull(error)
         assert.isObject(value)
         assert.deepEqual(value, { theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith'})
       }
@@ -287,6 +307,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the objects' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value)
           var expected = [
             { theName: 'testValue', anotherName: {nestedName: 'nestedValue' }, lastName: 'Smith' }
@@ -305,6 +326,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the objects' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value)
         var expected = [1, 'current system state', [[['/rosout_agg', ['/rosout']]], [['/rosout', ['/rosout']]], [['/rosout/set_logger_level', ['/rosout']], ['/rosout/get_loggers', ['/rosout']]]]]
         assert.deepEqual(value, expected)
@@ -359,6 +381,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }
     , 'contains the objects' : function (error, value) {
+        assert.isNull(error)
         assert.isArray(value)
         var expected = [1, 'current system state', [[['/rosout_agg', ['/rosout']]], [['/rosout', ['/rosout']]], [['/rosout/set_logger_level', ['/rosout']], ['/rosout/get_loggers', ['/rosout']]]]]
         assert.deepEqual(value, expected)
@@ -380,6 +403,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and arrays' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testArrayMethod')
         assert.isArray(params)
@@ -395,6 +419,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and a true boolean value' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testBooleanMethod')
         assert.isArray(params)
@@ -410,6 +435,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and the DateTime object' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testDateTimeMethod')
         assert.isArray(params)
@@ -426,6 +452,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and multiple double values' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testDoubleMethod')
         assert.isArray(params)
@@ -444,6 +471,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and multiple Integer values' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testIntegerMethod')
         assert.isArray(params)
@@ -475,6 +503,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and the Strings' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testMultipleStringMethod')
         assert.isArray(params)
@@ -489,6 +518,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains the multiline string' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testMultilineStringParam')
         assert.isArray(params)
@@ -510,6 +540,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and the String' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'getPublications')
         assert.isArray(params)
@@ -526,6 +557,7 @@ vows.describe('XML-RPC Parser').addBatch({
         xmlrpcParser.parseMethodCall(xml, this.callback)
       }
     , 'contains method name and the objects' : function (error, method, params) {
+        assert.isNull(error)
         assert.isString(method)
         assert.strictEqual(method, 'testMultipleStructMethod')
         assert.isArray(params)

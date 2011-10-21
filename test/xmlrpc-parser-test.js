@@ -173,6 +173,19 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.strictEqual(value, 6)
       }
     }
+  , 'with a positive I8 param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><i8>6</i8></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains the positive integer' : function (error, value) {
+      assert.isNull(error)
+      assert.isNumber(value)
+      assert.strictEqual(value, 6)
+    }
+  }
   , 'with a negative Int param' : {
       topic: function() {
         var xml = '<methodResponse><params>'
@@ -199,6 +212,19 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.strictEqual(value, -26)
       }
     }
+  , 'with a negative I8 param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><i8>-26</i8></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains the negative integer' : function (error, value) {
+        assert.isNull(error)
+        assert.isNumber(value)
+        assert.strictEqual(value, -26)
+      }
+    }
   , 'with a Int param of 0' : {
       topic: function() {
         var xml = '<methodResponse><params>'
@@ -216,6 +242,19 @@ vows.describe('XML-RPC Parser').addBatch({
       topic: function() {
         var xml = '<methodResponse><params>'
           + '<param><value><i4>0</i4></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains the value 0' : function (error, value) {
+        assert.isNull(error)
+        assert.isNumber(value)
+        assert.deepEqual(value, 0)
+      }
+    }
+  , 'with a I8 param of 0' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><i8>0</i8></value></param>'
           + '</params></methodResponse>'
         xmlrpcParser.parseMethodResponse(null, xml, this.callback)
       }

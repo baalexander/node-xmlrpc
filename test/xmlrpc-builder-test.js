@@ -159,15 +159,13 @@ vows.describe('XML-RPC Builder').addBatch({
         assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><struct><member><name>stringName</name><value><string>string1</string></value></member><member><name>intName</name><value><int>3</int></value></member></struct></value></param></params></methodCall>')
       }
     }
-    // FIXME Empty name causes warnings. Need to figure out what's the
-    // spec way to define an empty string
   , 'with a one-level struct and an empty property name' : {
       topic: function () {
         xmlrpcBuilder.buildMethodCall('testMethod', [{stringName: '', intName: 3}], this.callback)
       }
     , 'contains the struct' : function (error, xml) {
         assert.isNull(error)
-        assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><struct><member><name/><value><string>string1</string></value></member><member><name>intName</name><value><int>3</int></value></member></struct></value></param></params></methodCall>')
+        assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><struct><member><name>stringName</name><value><string/></value></member><member><name>intName</name><value><int>3</int></value></member></struct></value></param></params></methodCall>')
       }
     }
   , 'with a two-level struct' : {

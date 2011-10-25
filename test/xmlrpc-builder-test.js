@@ -46,6 +46,16 @@ vows.describe('XML-RPC Builder').addBatch({
         assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><dateTime.iso8601>20120607T11:35:10</dateTime.iso8601></value></param></params></methodCall>')
       }
     }
+    // Test Base64
+  , 'with a Base64 param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodCall('testMethod', [new Buffer('dGVzdGluZw==', 'base64')], this.callback)
+      }
+    , 'contains the base64 string' : function (error, xml) {
+        assert.isNull(error)
+        assert.equal(xml, '<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><base64>dGVzdGluZw==</base64></value></param></params></methodCall>')
+      }
+    }
     // Test Double
   , 'with a positive Double param' : {
       topic: function () {
@@ -205,6 +215,16 @@ vows.describe('XML-RPC Builder').addBatch({
         assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><dateTime.iso8601>20120807T11:35:10</dateTime.iso8601></value></param></params></methodResponse>')
       }
     }
+    // Test Base64
+  , 'with a Base64 param' : {
+      topic: function () {
+        xmlrpcBuilder.buildMethodResponse(new Buffer('dGVzdGluZw==', 'base64'), this.callback)
+      }
+    , 'contains the base64 string' : function (error, xml) {
+        assert.isNull(error)
+        assert.equal(xml, '<?xml version="1.0"?><methodResponse><params><param><value><base64>dGVzdGluZw==</base64></value></param></params></methodResponse>')
+    }
+  }
     // Test Double
   , 'with a positive Double param' : {
       topic: function () {

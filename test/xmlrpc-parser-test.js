@@ -101,6 +101,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(value, new Date(2012, 05, 08, 11, 35, 10))
       }
     }
+    // Test Base64
+  , 'with a Base64 param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><base64>dGVzdGluZw==</base64></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains the base64 encoded string' : function (error, value) {
+        assert.isNull(error)
+        assert.isObject(value)
+        assert.deepEqual(value, new Buffer('dGVzdGluZw==', 'base64'))
+      }
+    }
     // Test Double
   , 'with a positive Double param' : {
       topic: function() {
@@ -481,6 +495,22 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(params, [new Date(2000, 05, 08, 09, 35, 10)])
       }
     }
+    // Test Base64
+  , 'with a Base64 param' : {
+      topic: function() {
+        var xml = '<methodCall><methodName>testBase64Method</methodName><params>'
+          + '<param><value><base64>dGVzdGluZw==</base64></value></param>'
+          + '</params></methodCall>'
+        xmlrpcParser.parseMethodCall(xml, this.callback)
+      }
+    , 'contains the method name and the base64 Buffer object' : function (error, method, params) {
+        assert.isNull(error)
+        assert.isString(method)
+        assert.strictEqual(method, 'testBase64Method')
+        assert.isArray(params)
+        assert.deepEqual(params, [new Buffer('dGVzdGluZw==', 'base64')])
+    }
+  }
     // Test Double
   , 'with a Double param' : {
       topic: function() {

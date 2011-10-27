@@ -160,6 +160,19 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.strictEqual(error.faultCode, 4)
       }
     }
+  , 'with an empty fault' : {
+      topic: function() {
+        var xml = '<?xml version="1.0"?><methodResponse><fault>'
+          + '<value/>'
+          + '</fault></methodResponse>'
+        xmlrpcParser.parseMethodResponse(null, xml, this.callback)
+      }
+    , 'contains the error object' : function (error, value) {
+        assert.isObject(error)
+        assert.instanceOf(error, Error)
+        assert.include(error, 'stack')
+      }
+    }
     // Test Integer
   , 'with a positive Int param' : {
       topic: function() {

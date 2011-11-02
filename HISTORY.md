@@ -1,4 +1,13 @@
 
+## 0.9.0 / 2011-11-01
+
+ * Supports the Base64 datatype.
+ * Supports the i8 datatype, treating it as a float.
+ * Fixes issue where not returning for faults containing no params.
+ * Standardizes how to handle empty params. Last failing test now passes.
+ * Enforces null value for error param in callbacks.
+ * Updates to latest version of xmlbuilder.
+
 ## 0.8.1 / 2011-09-01
 
  * Supports passing the URI as a string to client or server.

@@ -14,9 +14,9 @@
 , "main" : "./lib/node-xmlrpc.js"
 , "dependencies" :
   { "node-xml"   : "1.0.0"
-  , "xmlbuilder" : "0.1.2"
+  , "xmlbuilder" : "0.1.5"
   }
-, "devDependencies" : { "vows" : ">=0.5.8" }
+, "devDependencies" : { "vows" : ">=0.5.12" }
 , "engines" : { "node" : ">=0.4", "npm" : ">=1.0.0" }
 , "licenses" :
   [ { "type" : "MIT"

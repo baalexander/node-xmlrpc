@@ -14,7 +14,7 @@
 , "main" : "./lib/node-xmlrpc.js"
 , "dependencies" :
   { "node-xml"   : "1.0.0"
-  , "xmlbuilder" : "0.1.5"
+  , "xmlbuilder" : "0.3.1"
   }
 , "devDependencies" : { "vows" : ">=0.5.12" }
 , "engines" : { "node" : ">=0.4", "npm" : ">=1.0.0" }

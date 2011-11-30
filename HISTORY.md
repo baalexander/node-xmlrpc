@@ -1,4 +1,9 @@
 
+## 0.9.1 / 2011-11-29
+
+ * Returns an Error on invalid XML-RPC.
+ * Updates to latest version of xmlbuilder to fix install warning.
+
 ## 0.9.0 / 2011-11-01
 
  * Supports the Base64 datatype.

@@ -13,7 +13,7 @@
 , "directories" : { "lib" : "./lib" }
 , "main" : "./lib/node-xmlrpc.js"
 , "dependencies" :
-  { "node-xml"   : "1.0.0"
+  { "sax"   : "0.3.x"
   , "xmlbuilder" : "0.3.1"
   }
 , "devDependencies" : { "vows" : ">=0.5.12" }

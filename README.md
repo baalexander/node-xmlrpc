@@ -10,6 +10,7 @@ as an XML-RPC server, receiving method calls and responding with method
 responses, or as an XML-RPC client, making method calls and receiving method
 responses, or as both.
 
+
 ## The How
 
 ### To Install
@@ -68,13 +69,20 @@ Method response for 'anAction': aResult
 
 ### To Test
 
-As XML-RPC must be precise so there are an extensive set of test cases in the test directory. [Vows](http://vowsjs.org/) is used for testing.
+[![Build
+Status](https://secure.travis-ci.org/baalexander/node-xmlrpc.png)](http://travis-ci.org/baalexander/node-xmlrpc)
 
-To run (from node-xmlrpc root directory):
+XML-RPC must be precise so there are an extensive set of test cases in the test
+directory. [Vows](http://vowsjs.org/) is the testing framework and [Travis
+CI](http://travis-ci.org/baalexander/node-xmlrpc) is used for Continuous
+Integration.
 
-`vows --spec test/*.js`
+To run the test suite:
+
+`make test`
 
 If submitting a bug fix, please update the appropriate test file too.
+
 
 ## The License (MIT)
 

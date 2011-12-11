@@ -134,7 +134,7 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, 'system.listMethods')
       }
     }
-   , 'with a chunked response' : {
+  , 'with a chunked response' : {
       topic: function () {
         var that = this
         // Basic http server that sends a chunked XML response

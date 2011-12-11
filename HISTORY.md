@@ -1,4 +1,10 @@
 
+## 0.9.2 / 2011-12-10
+
+ * Replaces the XML parser with the Sax.js module.
+ * Uses Travic CI for Continuous Integration.
+ * Fixes accidental global variable.
+
 ## 0.9.1 / 2011-11-29
 
  * Returns an Error on invalid XML-RPC.

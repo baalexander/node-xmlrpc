@@ -5,21 +5,33 @@
 , "preferGlobal" : false
 , "homepage" : "https://github.com/baalexander/node-xmlrpc"
 , "author" : "Brandon Alexander <baalexander@gmail.com> (https://github.com/baalexander)"
-, "repository" :
-  { "type" : "git"
+, "repository" : {
+    "type" : "git"
   , "url" : "git://github.com/baalexander/node-xmlrpc.git"
   }
-, "bugs" : { "url" : "https://github.com/baalexander/node-xmlrpc/issues" }
-, "directories" : { "lib" : "./lib" }
+, "bugs" : {
+    "url" : "https://github.com/baalexander/node-xmlrpc/issues"
+  }
+, "directories" : {
+    "lib" : "./lib"
+  }
 , "main" : "./lib/node-xmlrpc.js"
-, "dependencies" :
-  { "sax"   : "0.3.x"
+, "dependencies" : {
+    "sax"   : "0.3.x"
   , "xmlbuilder" : "0.3.1"
   }
-, "devDependencies" : { "vows" : ">=0.5.12" }
-, "engines" : { "node" : ">=0.4", "npm" : ">=1.0.0" }
-, "licenses" :
-  [ { "type" : "MIT"
+, "devDependencies" : {
+    "vows" : ">=0.5.12"
+  }
+, "scripts" : {
+    "test" : "make test"
+  }
+, "engines" : {
+    "node" : ">=0.4",
+    "npm" : ">=1.0.0"
+  }
+, "licenses" : [ {
+      "type" : "MIT"
     , "url" : "https://github.com/baalexander/node-xmlrpc/raw/master/LICENSE"
     }
   ]

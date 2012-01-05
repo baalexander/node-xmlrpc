@@ -185,6 +185,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.include(error, 'stack')
       }
     }
+    , 'with an explicit empty fault' : {
+      topic: function() {
+        var xml = '<?xml version="1.0"?><methodResponse><fault>'
+          + '<value><string></string></value>'
+          + '</fault></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the error object' : function (error, value) {
+        assert.isObject(error)
+        assert.instanceOf(error, Error)
+        assert.include(error, 'stack')
+      }
+    }
     // Test Integer
   , 'with a positive Int param' : {
       topic: function() {
@@ -327,6 +341,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.strictEqual(value, 'testString')
       }
     }
+  , 'with a implied String param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value>testString</value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the string' : function (error, value) {
+        assert.isNull(error)
+        assert.isString(value)
+        assert.strictEqual(value, 'testString')
+      }
+    }
   , 'with an empty String param' : {
       topic: function() {
         var xml = '<methodResponse><params>'
@@ -346,6 +374,20 @@ vows.describe('XML-RPC Parser').addBatch({
       topic: function() {
         var xml = '<methodResponse><params>'
           + '<param><value><struct><member><name>the-Name</name><value><string>testValue</string></value></member></struct></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the object' : function (error, value) {
+        assert.isNull(error)
+        assert.isObject(value)
+        assert.deepEqual(value, { 'the-Name': 'testValue'})
+      }
+    }
+  , 'with a Struct param with implicit string' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><struct><member><name>the-Name</name><value>testValue</value></member></struct></value></param>'
           + '</params></methodResponse>'
         xmlrpcParser.parseMethodResponse(xml, this.callback)
         xmlrpcParser.close()

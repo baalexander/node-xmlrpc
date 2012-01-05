@@ -185,6 +185,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.include(error, 'stack')
       }
     }
+    , 'with an explicit empty fault' : {
+      topic: function() {
+        var xml = '<?xml version="1.0"?><methodResponse><fault>'
+          + '<value><string></string></value>'
+          + '</fault></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the error object' : function (error, value) {
+        assert.isObject(error)
+        assert.instanceOf(error, Error)
+        assert.include(error, 'stack')
+      }
+    }
     // Test Integer
   , 'with a positive Int param' : {
       topic: function() {

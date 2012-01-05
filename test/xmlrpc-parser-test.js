@@ -384,6 +384,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.deepEqual(value, { 'the-Name': 'testValue'})
       }
     }
+  , 'with a Struct param with implicit string' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value><struct><member><name>the-Name</name><value>testValue</value></member></struct></value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the object' : function (error, value) {
+        assert.isNull(error)
+        assert.isObject(value)
+        assert.deepEqual(value, { 'the-Name': 'testValue'})
+      }
+    }
   , 'with a Struct param and whitespace after the name element' : {
       topic: function() {
         var xml = '<methodResponse><params>'

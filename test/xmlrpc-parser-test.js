@@ -327,6 +327,20 @@ vows.describe('XML-RPC Parser').addBatch({
         assert.strictEqual(value, 'testString')
       }
     }
+  , 'with a implied String param' : {
+      topic: function() {
+        var xml = '<methodResponse><params>'
+          + '<param><value>testString</value></param>'
+          + '</params></methodResponse>'
+        xmlrpcParser.parseMethodResponse(xml, this.callback)
+        xmlrpcParser.close()
+      }
+    , 'contains the string' : function (error, value) {
+        assert.isNull(error)
+        assert.isString(value)
+        assert.strictEqual(value, 'testString')
+      }
+    }
   , 'with an empty String param' : {
       topic: function() {
         var xml = '<methodResponse><params>'

@@ -1,4 +1,8 @@
 
+## 0.9.3 / 2012-01-21
+
+ * Values with no type now default to String as per XML-RPC spec.
+
 ## 0.9.2 / 2011-12-10
 
  * Replaces the XML parser with the Sax.js module.

@@ -44,4 +44,43 @@ vows.describe('Server').addBatch({
       }
     }
   }
+//////////////////////////////////////////////////////////////////////
+// Test method call functionality
+//////////////////////////////////////////////////////////////////////
+, 'A method call' : {
+    // Test chunked request
+    'with a chunked request' : {
+      topic: function () {
+        var server = new Server({ port: 9998, path: '/'}, false)
+        server.on('testMethod', this.callback)
+
+        // Waits briefly to give the server time to start up and start listening
+        setTimeout(function () {
+          var options = { host: 'localhost', port: 9998, path: '/',
+                          method: 'POST' }
+          var req = http.request(options, function() {})
+          var chunk1 = '<?xml version="1.0" encoding="UTF-8"?>'
+            + '<methodCall>'
+            + '<methodName>testMethod</methodName>'
+            + '<params>'
+            + '<param>'
+            + '<value><string>Param A</string></value>'
+            + '</param>'
+            + '<param>'
+          var chunk2 = '<value><string>Param B</string></value>'
+            + '</param>'
+            + '</params>'
+            + '</methodCall>'
+          req.on('error', function(e) { assert.isNull(e); })
+          req.write(chunk1)
+          req.write(chunk2)
+          req.end()
+        }, 500)
+      }
+    , 'contains all the parameters' : function (error, value) {
+        assert.isNull(error)
+        assert.deepEqual(value, ['Param A', 'Param B'])
+      }
+    }
+  }
 }).export(module)

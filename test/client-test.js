@@ -3,6 +3,7 @@ var vows   = require('vows')
   , http   = require('http')
   , fs     = require('fs')
   , Client = require('../lib/client')
+  , Iconv  = require('iconv').Iconv
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////
@@ -165,6 +166,33 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, ['system.listMethods', 'system.methodSignature', 'xmlrpc_dialect'])
       }
     }
+    , 'with a ISO-8859-1 encoding' : {
+        topic: function () {
+          var that = this
+          http.createServer(function (request, response) {
+              response.writeHead(200, {'Content-Type': 'text/xml'})
+              var data = '<?xml version="1.0" encoding="ISO-8859-1"?>'
+                + '<methodResponse>'
+                + '<params>'
+                + '<param><value><string>äè12</string></value></param>'
+                + '</params>'
+                + '</methodResponse>'
+              var iconv = new Iconv('utf-8','iso-8859-1')
+              data = iconv.convert(data)
+              response.write(data)
+              response.end()
+          }).listen(9093, 'localhost')
+          // Waits briefly to give the server time to start up and start listening
+          setTimeout(function () {
+            var client = new Client('http://localhost:9093', false)
+            client.methodCall('listMethods', null, that.callback)
+          }, 500)
+        }
+      , 'contains the correct string' : function (error, value) {
+          assert.isNull(error)
+          assert.deepEqual(value, 'äè12')
+        }
+      }
     /* // Test long method response, which requires multiple chunks returned from
     // the http request
     // Only one test relying on HTTP server can be used. See Issue #20.

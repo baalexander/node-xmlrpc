@@ -8,7 +8,7 @@ var vows   = require('vows')
 
 
 vows.describe('unmarshall').addBatch(
-{ 'Calling unmarshallResponse() with':
+{ 'unmarshallResponse() called with':
   { 'bad input containing':
     { 'broken xml':
       { topic: unmarshallResponseFixture('bad_food/broken_xml.xml')
@@ -58,7 +58,7 @@ vows.describe('unmarshall').addBatch(
       , 'does not return an error': assertOk
       , 'results in the correct buffer': assertResponse(new Buffer('dGVzdGluZw==', 'base64'))
       }
-        /* No illegal base64 test. node just skips illegal chars, which is RFC conform. */
+      /* No illegal base64 test. node just skips illegal chars, which is RFC conform. */
 
     , 'DOUBLE':
       { 'set to ~\u03c0':
@@ -142,7 +142,28 @@ vows.describe('unmarshall').addBatch(
         , 'results in an error': assertError
         }
       }
+
+    , 'STRING':
+      { 'containing characters':
+        { topic: unmarshallResponseFixture('good_food/string_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in the right string': assertResponse('testString')
+        }
+      , 'without content':
+        { topic: unmarshallResponseFixture('good_food/string_empty_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in an empty string': assertResponse('')
+        }
+        /* invalid string, anyone? */
+      }
     }
+
+  , 'a param of unspecified type':
+    { topic: unmarshallResponseFixture('good_food/unspecified_type_response.xml')
+    , 'does not return an error': assertOk
+    , 'results in a string': assertResponse('testString')
+    }
+
   , 'compound':
     { 'ARRAY':
       { 'containing simple values':
@@ -168,6 +189,32 @@ vows.describe('unmarshall').addBatch(
               assertResponse([178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'])
         }
       }
+    , 'STRUCT':
+      { 'containing simple values':
+        { topic: unmarshallResponseFixture('good_food/struct_simple_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
+        }
+      , 'containing an implicit string':
+        { topic: unmarshallResponseFixture('good_food/struct_implicit_string_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
+        }
+      , 'that has whitespace after the name element':
+        { topic: unmarshallResponseFixture('good_food/struct_with_whitespace_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
+        }
+      , 'containing another STRUCT':
+        { topic: unmarshallResponseFixture('good_food/struct_nested_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in a matching object':
+            assertResponse( { theName: 'testValue'
+                            , anotherName: { nestedName: 'nestedValue' }
+                            , lastName: 'Smith'
+                            })
+        }
+      }
     , 'FAULT':
       { 'which includes error information':
         { topic: unmarshallResponseFixture('good_food/fault.xml')
@@ -186,6 +233,17 @@ vows.describe('unmarshall').addBatch(
         { topic: unmarshallResponseFixture('good_food/fault_explicit_empty.xml')
         , 'results in an error': assertError
         }
+      }
+    , 'a mix of everything':
+      { topic: unmarshallResponseFixture('good_food/grinder.xml')
+        , 'does not return an error': assertOk
+        , 'results in a matching object':
+            assertResponse( [ { theName: 'testValue'
+                              , anotherName: {nestedName: 'nestedValue' }
+                              , lastName: 'Smith' 
+                              }
+                            , [ { yetAnotherName: 1999.26} , 'moreNested' ]
+                            ])
       }
     }
   }

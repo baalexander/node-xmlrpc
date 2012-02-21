@@ -23,6 +23,7 @@ vows.describe('unmarshall').addBatch(
       , 'results in an error': assertError
       }
     }
+
   , 'type':
     { 'BOOLEAN':
       { 'set to a true value':

@@ -166,6 +166,31 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, ['system.listMethods', 'system.methodSignature', 'xmlrpc_dialect'])
       }
     }
+    , 'with a utf-8 encoding' : {
+        topic: function () {
+          var that = this
+          http.createServer(function (request, response) {
+              response.writeHead(200, {'Content-Type': 'text/xml'})
+              var data = '<?xml version="2.0" encoding="UTF-8"?>'
+                + '<methodResponse>'
+                + '<params>'
+                + '<param><value><string>here is mr. Snowman: ☃</string></value></param>'
+                + '</params>'
+                + '</methodResponse>'
+              response.write(data)
+              response.end()
+          }).listen(9093, 'localhost')
+          // Waits briefly to give the server time to start up and start listening
+          setTimeout(function () {
+            var client = new Client('http://localhost:9093', false)
+            client.methodCall('listMethods', null, that.callback)
+          }, 500)
+        }
+      , 'contains the correct string' : function (error, value) {
+          assert.isNull(error)
+          assert.deepEqual(value, 'here is mr. Snowman: ☃')
+        }
+      }
     , 'with a ISO-8859-1 encoding' : {
         topic: function () {
           var that = this
@@ -181,10 +206,10 @@ vows.describe('Client').addBatch({
               data = iconv.convert(data)
               response.write(data)
               response.end()
-          }).listen(9093, 'localhost')
+          }).listen(9094, 'localhost')
           // Waits briefly to give the server time to start up and start listening
           setTimeout(function () {
-            var client = new Client('http://localhost:9093', false)
+            var client = new Client({ host: 'localhost', port: 9094, path: '/', responseEncoding : 'binary'}, false)
             client.methodCall('listMethods', null, that.callback)
           }, 500)
         }

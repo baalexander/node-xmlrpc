@@ -2,7 +2,7 @@ var vows   = require('vows')
   , path = require('path')
   , fs = require('fs')
   , assert = require('assert')
-  , deserializer = require('../lib/deserializer')
+  , Deserializer = require('../lib/deserializer')
   , error_gallery = process.env.XMLRPC_ERROR_GALLERY
 
 
@@ -259,6 +259,7 @@ function fixtureStream(f) {
 
 function deserializeMethodResponseFixture(f) {
   return function() {
+    var deserializer = new Deserializer()
     deserializer.deserializeMethodResponse(fixtureStream(f), this.callback);
   }
 }

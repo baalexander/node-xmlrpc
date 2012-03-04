@@ -1,4 +1,9 @@
 
+## 0.9.4 / 2012-03-03
+
+ * Handles chunked method calls.
+ * Supports ISO-8859-1 encodings.
+
 ## 0.9.3 / 2012-01-21
 
  * Values with no type now default to String as per XML-RPC spec.

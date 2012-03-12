@@ -1,8 +1,9 @@
-var vows   = require('vows')
-  , assert = require('assert')
-  , http   = require('http')
-  , fs     = require('fs')
-  , Client = require('../lib/client')
+var vows        = require('vows')
+  , assert      = require('assert')
+  , http        = require('http')
+  , fs          = require('fs')
+  , Client      = require('../lib/client')
+  , hexUtil     = require('./util/hexToBuffer')
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////
@@ -190,40 +191,47 @@ vows.describe('Client').addBatch({
           assert.deepEqual(value, 'here is mr. Snowman: ☃')
         }
       }
-    // , 'with a ISO-8859-1 encoding' : {
-    //     topic: function () {
-    //       var that = this
-    //       http.createServer(function (request, response) {
-    //           response.writeHead(200, {'Content-Type': 'text/xml'})
-    //           // To prevent including a npm package that needs to compile (iconv):
-    //           // The following iso 8859-1 text below in hex
-    //           //   <?xml version="1.0" encoding="ISO-8859-1"?>
-    //           //   <methodResponse>
-    //           //   <params>
-    //           //   <param><value><string>äè12</string></value></param>
-    //           //   </params>
-    //           //   </methodResponse>
-    //           var hex = '3c3f786d6c2076657273696f6e3d22312e302220656e636'
-    //             + 'f64696e673d2249534f2d383835392d31223f3e3c6d6574686f64'
-    //             + '526573706f6e73653e3c706172616d733e3c706172616d3e3c766'
-    //             + '16c75653e3c737472696e673ee4e831323c2f737472696e673e3c'
-    //             + '2f76616c75653e3c2f706172616d3e3c2f706172616d733e3c2f6'
-    //             + 'd6574686f64526573706f6e73653e'
-    //           hexData = new Buffer(hex, 'hex')
-    //           response.write(hexData)
-    //           response.end()
-    //       }).listen(9094, 'localhost')
-    //       // Waits briefly to give the server time to start up and start listening
-    //       setTimeout(function () {
-    //         var client = new Client({ host: 'localhost', port: 9094, path: '/', responseEncoding : 'binary'}, false)
-    //         client.methodCall('listMethods', null, that.callback)
-    //       }, 500)
-    //     }
-    //   , 'contains the correct string' : function (error, value) {
-    //       assert.isNull(error)
-    //       assert.deepEqual(value, 'äè12')
-    //     }
-    //   }
+    , 'with a ISO-8859-1 encoding' : {
+        topic: function () {
+          var that = this
+          http.createServer(function (request, response) {
+              response.writeHead(200, {'Content-Type': 'text/xml'})
+              // To prevent including a npm package that needs to compile (iconv):
+              // The following iso 8859-1 text below in hex
+              //   <?xml version="1.0" encoding="ISO-8859-1"?>
+              //   <methodResponse>
+              //   <params>
+              //   <param><value><string>äè12</string></value></param>
+              //   </params>
+              //   </methodResponse>
+              var hex = '3c3f786d6c2076657273696f6e3d22312e302220656e636'
+                + 'f64696e673d2249534f2d383835392d31223f3e3c6d6574686f64'
+                + '526573706f6e73653e3c706172616d733e3c706172616d3e3c766'
+                + '16c75653e3c737472696e673ee4e831323c2f737472696e673e3c'
+                + '2f76616c75653e3c2f706172616d3e3c2f706172616d733e3c2f6'
+                + 'd6574686f64526573706f6e73653e'
+              var hexData = null
+              try {
+                // Hex encoding is only supported in Node v0.6+
+                hexData = new Buffer(hex, 'hex')
+              }
+              catch (e) {
+                hexData = hexUtil.hexToBuffer(hex)
+              }
+              response.write(hexData)
+              response.end()
+          }).listen(9094, 'localhost')
+          // Waits briefly to give the server time to start up and start listening
+          setTimeout(function () {
+            var client = new Client({ host: 'localhost', port: 9094, path: '/', responseEncoding : 'binary'}, false)
+            client.methodCall('listMethods', null, that.callback)
+          }, 500)
+        }
+      , 'contains the correct string' : function (error, value) {
+          assert.isNull(error)
+          assert.deepEqual(value, 'äè12')
+        }
+      }
     /* // Test long method response, which requires multiple chunks returned from
     // the http request
     // Only one test relying on HTTP server can be used. See Issue #20.

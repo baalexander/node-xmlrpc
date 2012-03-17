@@ -62,12 +62,12 @@ vows.describe('deserialize').addBatch(
 
     , 'DOUBLE':
       { 'set to ~\u03c0':
-        { topic: deserializeMethodResponseFixture('good_food/double_pos_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/double_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(3.141592654)
         }
       , 'set to -\u221a2':
-        { topic: deserializeMethodResponseFixture('good_food/double_neg_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/double_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-1.41421)
         }
@@ -79,12 +79,12 @@ vows.describe('deserialize').addBatch(
 
     , 'INT':
       { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/int_pos_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/int_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(4)
         }
       , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/int_neg_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/int_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-4)
         }
@@ -101,12 +101,12 @@ vows.describe('deserialize').addBatch(
 
     , 'I4':
       { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/i4_pos_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/i4_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(4)
         }
       , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/i4_neg_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/i4_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-4)
         }
@@ -123,12 +123,12 @@ vows.describe('deserialize').addBatch(
 
     , 'I8':
       { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/i8_pos_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/i8_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct string': assertResponse('4611686018427387904')
         }
       , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/i8_neg_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/i8_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct string': assertResponse('-4611686018427387904')
         }
@@ -167,7 +167,7 @@ vows.describe('deserialize').addBatch(
   , 'compound':
     { 'ARRAY':
       { 'containing simple values':
-        { topic: deserializeMethodResponseFixture('good_food/array_simple_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/array_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct array': assertResponse([178, 'testString'])
         }
@@ -191,7 +191,7 @@ vows.describe('deserialize').addBatch(
       }
     , 'STRUCT':
       { 'containing simple values':
-        { topic: deserializeMethodResponseFixture('good_food/struct_simple_response.xml')
+        { topic: deserializeMethodResponseFixture('good_food/struct_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
         }

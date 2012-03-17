@@ -140,7 +140,7 @@ vows.describe('deserialize').addBatch({
             var value = ['string1', 3]
             return Serializer.serializeMethodCall('testMethod', [value])
           }
-        , 'contains the array': assertXml('good_food/array_simple_call.xml')
+        , 'contains the array': assertXml('good_food/array_call.xml')
         }
       }
 
@@ -153,7 +153,7 @@ vows.describe('deserialize').addBatch({
             }
             return Serializer.serializeMethodCall('testMethod', [value])
           }
-        , 'contains the struct': assertXml('good_food/struct_simple_call.xml')
+        , 'contains the struct': assertXml('good_food/struct_call.xml')
         }
       , 'with a one-level struct and an empty property name' : {
           topic: function () {
@@ -191,16 +191,146 @@ vows.describe('deserialize').addBatch({
         'with a true boolean param' : {
           topic: function () {
             var value = true
-            return Serializer.serializeMethodResponse('testMethod', [value])
+            return Serializer.serializeMethodResponse(value)
           }
         , 'contains the value 1': assertXml('good_food/boolean_true_response.xml')
         }
       , 'with a false boolean param' : {
           topic: function () {
             var value = false
-            return Serializer.serializeMethodResponse('testMethod', [value])
+            return Serializer.serializeMethodResponse(value)
           }
         , 'contains the value 0': assertXml('good_food/boolean_false_response.xml')
+        }
+      }
+
+    , 'datetime' : {
+        'with a regular datetime param' : {
+          topic: function () {
+            var value = new Date(2012, 5, 8, 11, 35, 10)
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the timestamp': assertXml('good_food/datetime_response.xml')
+        }
+      }
+
+    , 'base64' : {
+        'with a base64 param' : {
+          topic: function () {
+            var value = new Buffer('dGVzdGluZw==', 'base64')
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the base64 string': assertXml('good_food/base64_response.xml')
+        }
+      }
+
+    , 'double' : {
+        'with a positive double param' : {
+          topic: function () {
+            var value = 3.141592654
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the positive double': assertXml('good_food/double_positive_response.xml')
+        }
+      , 'with a negative double param' : {
+          topic: function () {
+            var value = -1.41421
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the negative double': assertXml('good_food/double_negative_response.xml')
+        }
+      }
+
+    , 'integer' : {
+        'with a positive integer param' : {
+          topic: function () {
+            var value = 4
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the positive integer': assertXml('good_food/int_positive_response.xml')
+        }
+      , 'with a negative integer param' : {
+          topic: function () {
+            var value = -4
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the negative integer': assertXml('good_food/int_negative_response.xml')
+        }
+      , 'with an integer param of 0' : {
+          topic: function () {
+            var value = 0
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains 0': assertXml('good_food/int_zero_response.xml')
+        }
+      }
+
+    , 'string' : {
+        'with a regular string param' : {
+          topic: function () {
+            var value = 'testString'
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the string': assertXml('good_food/string_response.xml')
+        }
+      , 'with an empty string' : {
+          topic: function () {
+            var value = ''
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the empty string': assertXml('good_food/string_empty_response.xml')
+        }
+      }
+
+    }
+
+  , 'compound': {
+
+      'array' : {
+        'with a simple array' : {
+          topic: function () {
+            var value = [178, 'testString']
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the array': assertXml('good_food/array_response.xml')
+        }
+      }
+
+    , 'struct' : {
+        'with a one-level struct' : {
+          topic: function () {
+            var value = {
+              'the-Name': 'testValue'
+            }
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the struct': assertXml('good_food/struct_response.xml')
+        }
+      , 'with a two-level struct' : {
+          topic: function () {
+            var value = {
+              theName: 'testValue'
+            , anotherName: {
+                nestedName: 'nestedValue'
+              }
+            , lastName: 'Smith'
+            }
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the struct': assertXml('good_food/struct_nested_response.xml')
+        }
+      }
+
+    , 'fault' : {
+        'with a fault' : {
+          topic: function () {
+            var value = {
+              faultCode: 4
+            , faultString: 'Too many parameters.'
+            }
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the fault': assertXml('good_food/fault.xml')
         }
       }
 

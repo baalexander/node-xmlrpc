@@ -130,6 +130,16 @@ vows.describe('deserialize').addBatch({
         }
       }
 
+    , 'undefined' : {
+        'with an undefined param' : {
+          topic: function () {
+            var value = undefined
+            return Serializer.serializeMethodCall('testMethod', [value])
+          }
+        , 'contains the empty value': assertXml('good_food/undefined_call.xml')
+        }
+      }
+
     }
 
   , 'compound': {
@@ -279,6 +289,16 @@ vows.describe('deserialize').addBatch({
             return Serializer.serializeMethodResponse(value)
           }
         , 'contains the empty string': assertXml('good_food/string_empty_response.xml')
+        }
+      }
+
+    , 'undefined' : {
+        'with an undefined param' : {
+          topic: function () {
+            var value = undefined
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the empty value': assertXml('good_food/undefined_response.xml')
         }
       }
 

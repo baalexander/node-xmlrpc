@@ -220,7 +220,7 @@ vows.describe('deserialize').addBatch(
         { topic: deserializeMethodResponseFixture('good_food/fault.xml')
         , 'results in an error': assertError
         , 'which has all properties of a proper xmlrpc fault': function(error, r) {
-            assert.strictEqual(error.message, 'xmlrpc fault: Too many parameters.')
+            assert.strictEqual(error.message, 'XML-RPC fault: Too many parameters.')
             assert.strictEqual(error.faultString, 'Too many parameters.')
             assert.strictEqual(error.faultCode, 4)
           }

@@ -6,207 +6,215 @@ var vows   = require('vows')
   , error_gallery = process.env.XMLRPC_ERROR_GALLERY
 
 
-vows.describe('deserialize').addBatch(
-{ 'deserializeMethodResponse() called with':
-  { 'bad input containing':
-    { 'broken xml':
-      { topic: deserializeMethodResponseFixture('bad_food/broken_xml.xml')
+vows.describe('deserialize').addBatch({
+
+  'deserializeMethodResponse() called with': {
+
+    'bad input containing': {
+
+      'broken xml': {
+        topic: deserializeMethodResponseFixture('bad_food/broken_xml.xml')
       , 'results in an error': assertError
       }
-    , 'non-xmlrpc xml tags':
-      { topic: deserializeMethodResponseFixture('bad_food/unknown_tags.xml')
+
+    , 'non-xmlrpc xml tags': {
+        topic: deserializeMethodResponseFixture('bad_food/unknown_tags.xml')
       , 'results in an error': assertError
       }
-    , 'a bare sequence of params':
-      { topic: deserializeMethodResponseFixture('bad_food/just_params.xml')
+
+    , 'a bare sequence of params': {
+        topic: deserializeMethodResponseFixture('bad_food/just_params.xml')
       , 'results in an error': assertError
       }
+
     }
 
-  , 'type':
-    { 'BOOLEAN':
-      { 'set to a true value':
-        { topic: deserializeMethodResponseFixture('good_food/boolean_true_response.xml')
+  , 'type': {
+
+    'boolean': {
+      'set to a true value': {
+          topic: deserializeMethodResponseFixture('good_food/boolean_true_response.xml')
         , 'does not return an error': assertOk
         , 'results in a true value': assertResponse(true)
         }
-      , 'set to a false value':
-        { topic: deserializeMethodResponseFixture('good_food/boolean_false_response.xml')
+      , 'set to a false value': {
+          topic: deserializeMethodResponseFixture('good_food/boolean_false_response.xml')
         , 'does not return an error': assertOk
         , 'results in a false value': assertResponse(false)
         }
-      , 'containing an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_boolean_response.xml')
+      , 'containing an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_boolean_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'DATETIME':
-      { 'set to valid ISO8601 date':
-        { topic: deserializeMethodResponseFixture('good_food/datetime_response.xml')
+    , 'datetime': {
+        'set to valid ISO8601 date': {
+          topic: deserializeMethodResponseFixture('good_food/datetime_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching Date object': assertResponse(new Date(2012, 5, 8, 11, 35, 10))
         }
-      , 'containing an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_datetime_response.xml')
+      , 'containing an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_datetime_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'BASE64':
-      { topic: deserializeMethodResponseFixture('good_food/base64_response.xml')
+    , 'base64': {
+        topic: deserializeMethodResponseFixture('good_food/base64_response.xml')
       , 'does not return an error': assertOk
       , 'results in the correct buffer': assertResponse(new Buffer('dGVzdGluZw==', 'base64'))
       }
-      /* No illegal base64 test. node just skips illegal chars, which is RFC conform. */
+      // No illegal base64 test. node just skips illegal chars, which is RFC conform.
 
-    , 'DOUBLE':
-      { 'set to ~\u03c0':
-        { topic: deserializeMethodResponseFixture('good_food/double_positive_response.xml')
+    , 'double': {
+        'set to ~\u03c0': {
+          topic: deserializeMethodResponseFixture('good_food/double_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(3.141592654)
         }
-      , 'set to -\u221a2':
-        { topic: deserializeMethodResponseFixture('good_food/double_negative_response.xml')
+      , 'set to -\u221a2': {
+          topic: deserializeMethodResponseFixture('good_food/double_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-1.41421)
         }
-      , 'set to an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_double_response.xml')
+      , 'set to an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_double_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'INT':
-      { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/int_positive_response.xml')
+    , 'int': {
+        'set to a positive value': {
+          topic: deserializeMethodResponseFixture('good_food/int_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(4)
         }
-      , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/int_negative_response.xml')
+      , 'set to a negative value': {
+          topic: deserializeMethodResponseFixture('good_food/int_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-4)
         }
-      , 'set to zero':
-        { topic: deserializeMethodResponseFixture('good_food/int_zero_response.xml')
+      , 'set to zero': {
+          topic: deserializeMethodResponseFixture('good_food/int_zero_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(0)
         }
-      , 'set to an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_int_response.xml')
+      , 'set to an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_int_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'I4':
-      { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/i4_positive_response.xml')
+    , 'i4': {
+        'set to a positive value': {
+          topic: deserializeMethodResponseFixture('good_food/i4_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(4)
         }
-      , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/i4_negative_response.xml')
+      , 'set to a negative value': {
+          topic: deserializeMethodResponseFixture('good_food/i4_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(-4)
         }
-      , 'set to zero':
-        { topic: deserializeMethodResponseFixture('good_food/i4_zero_response.xml')
+      , 'set to zero': {
+          topic: deserializeMethodResponseFixture('good_food/i4_zero_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct number': assertResponse(0)
         }
-      , 'set to an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_i4_response.xml')
+      , 'set to an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_i4_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'I8':
-      { 'set to a positive value':
-        { topic: deserializeMethodResponseFixture('good_food/i8_positive_response.xml')
+    , 'i8': {
+        'set to a positive value': {
+          topic: deserializeMethodResponseFixture('good_food/i8_positive_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct string': assertResponse('4611686018427387904')
         }
-      , 'set to a negative value':
-        { topic: deserializeMethodResponseFixture('good_food/i8_negative_response.xml')
+      , 'set to a negative value': {
+          topic: deserializeMethodResponseFixture('good_food/i8_negative_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct string': assertResponse('-4611686018427387904')
         }
-      , 'set to zero':
-        { topic: deserializeMethodResponseFixture('good_food/i8_zero_response.xml')
+      , 'set to zero': {
+          topic: deserializeMethodResponseFixture('good_food/i8_zero_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct string': assertResponse('0')
         }
-      , 'set to an illegal value':
-        { topic: deserializeMethodResponseFixture('bad_food/illegal_i8_response.xml')
+      , 'set to an illegal value': {
+          topic: deserializeMethodResponseFixture('bad_food/illegal_i8_response.xml')
         , 'results in an error': assertError
         }
       }
 
-    , 'STRING':
-      { 'containing characters':
-        { topic: deserializeMethodResponseFixture('good_food/string_response.xml')
+    , 'string': {
+        'containing characters': {
+          topic: deserializeMethodResponseFixture('good_food/string_response.xml')
         , 'does not return an error': assertOk
         , 'results in the right string': assertResponse('testString')
         }
-      , 'without content':
-        { topic: deserializeMethodResponseFixture('good_food/string_empty_response.xml')
+      , 'without content': {
+          topic: deserializeMethodResponseFixture('good_food/string_empty_response.xml')
         , 'does not return an error': assertOk
         , 'results in an empty string': assertResponse('')
         }
-        /* invalid string, anyone? */
       }
     }
 
-  , 'a param of unspecified type':
-    { topic: deserializeMethodResponseFixture('good_food/unspecified_type_response.xml')
+  , 'a param of unspecified type': {
+      topic: deserializeMethodResponseFixture('good_food/unspecified_type_response.xml')
     , 'does not return an error': assertOk
     , 'results in a string': assertResponse('testString')
     }
 
-  , 'compound':
-    { 'ARRAY':
-      { 'containing simple values':
-        { topic: deserializeMethodResponseFixture('good_food/array_response.xml')
+  , 'compound': {
+
+      'array': {
+        'containing simple values': {
+          topic: deserializeMethodResponseFixture('good_food/array_response.xml')
         , 'does not return an error': assertOk
         , 'results in the correct array': assertResponse([178, 'testString'])
         }
-      , 'containing no values':
-        { topic: deserializeMethodResponseFixture('good_food/array_empty_response.xml')
+      , 'containing no values': {
+          topic: deserializeMethodResponseFixture('good_food/array_empty_response.xml')
         , 'does not return an error': assertOk
         , 'results in an empty array': assertResponse([])
         }
-      , 'that has one nested ARRAY':
-        { topic: deserializeMethodResponseFixture('good_food/array_nested_response.xml')
+      , 'that has one nested ARRAY': {
+          topic: deserializeMethodResponseFixture('good_food/array_nested_response.xml')
         , 'does not return an error': assertOk
         , 'results in an array containing another array':
               assertResponse([178, 'testLevel1String', ['testString', 64]])
         }
-      , 'that has a nested ARRAY followed by more simple values':
-        { topic: deserializeMethodResponseFixture('good_food/array_nested_with_trailing_values_response.xml')
+      , 'that has a nested ARRAY followed by more simple values': {
+          topic: deserializeMethodResponseFixture('good_food/array_nested_with_trailing_values_response.xml')
         , 'does not return an error': assertOk
         , 'results in an array containing another array and the trailing values':
               assertResponse([178, 'testLevel1String', ['testString', 64], 'testLevel1StringAfter'])
         }
       }
-    , 'STRUCT':
-      { 'containing simple values':
-        { topic: deserializeMethodResponseFixture('good_food/struct_response.xml')
+
+    , 'struct': {
+        'containing simple values': {
+          topic: deserializeMethodResponseFixture('good_food/struct_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
         }
-      , 'containing an implicit string':
-        { topic: deserializeMethodResponseFixture('good_food/struct_implicit_string_response.xml')
+      , 'containing an implicit string': {
+          topic: deserializeMethodResponseFixture('good_food/struct_implicit_string_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
         }
-      , 'that has whitespace after the name element':
-        { topic: deserializeMethodResponseFixture('good_food/struct_with_whitespace_response.xml')
+      , 'that has whitespace after the name element': {
+          topic: deserializeMethodResponseFixture('good_food/struct_with_whitespace_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching object': assertResponse({'the-Name': 'testValue'})
         }
-      , 'containing another STRUCT':
-        { topic: deserializeMethodResponseFixture('good_food/struct_nested_response.xml')
+      , 'containing another struct': {
+          topic: deserializeMethodResponseFixture('good_food/struct_nested_response.xml')
         , 'does not return an error': assertOk
         , 'results in a matching object':
             assertResponse( { theName: 'testValue'
@@ -215,9 +223,10 @@ vows.describe('deserialize').addBatch(
                             })
         }
       }
-    , 'FAULT':
-      { 'which includes error information':
-        { topic: deserializeMethodResponseFixture('good_food/fault.xml')
+
+    , 'fault': {
+        'which includes error information': {
+          topic: deserializeMethodResponseFixture('good_food/fault.xml')
         , 'results in an error': assertError
         , 'which has all properties of a proper xmlrpc fault': function(error, r) {
             assert.strictEqual(error.message, 'XML-RPC fault: Too many parameters.')
@@ -225,25 +234,25 @@ vows.describe('deserialize').addBatch(
             assert.strictEqual(error.faultCode, 4)
           }
         }
-      , 'which does not include error information':
-        { topic: deserializeMethodResponseFixture('good_food/fault_empty.xml')
+      , 'which does not include error information': {
+          topic: deserializeMethodResponseFixture('good_food/fault_empty.xml')
         , 'results in an error': assertError
         }
-      , 'that contains an empty string':
-        { topic: deserializeMethodResponseFixture('good_food/fault_explicit_empty.xml')
+      , 'that contains an empty string': {
+          topic: deserializeMethodResponseFixture('good_food/fault_explicit_empty.xml')
         , 'results in an error': assertError
         }
       }
-    , 'a mix of everything':
-      { topic: deserializeMethodResponseFixture('good_food/grinder.xml')
-        , 'does not return an error': assertOk
-        , 'results in a matching object':
-            assertResponse( [ { theName: 'testValue'
-                              , anotherName: {nestedName: 'nestedValue' }
-                              , lastName: 'Smith' 
-                              }
-                            , [ { yetAnotherName: 1999.26} , 'moreNested' ]
-                            ])
+    , 'a mix of everything': {
+        topic: deserializeMethodResponseFixture('good_food/grinder.xml')
+      , 'does not return an error': assertOk
+      , 'results in a matching object':
+          assertResponse([ { theName: 'testValue'
+                            , anotherName: {nestedName: 'nestedValue' }
+                            , lastName: 'Smith' 
+                            }
+                          , [ { yetAnotherName: 1999.26} , 'moreNested' ]
+                         ])
       }
     }
   }

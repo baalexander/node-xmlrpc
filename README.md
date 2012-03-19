@@ -20,8 +20,9 @@ npm install xmlrpc
 
 ### To Use
 
-The client-server.js in the example directory has an nicely commented example of
-using xmlrpc as an XML-RPC server and client (they even talk to each other!).
+The file client_server.js in the example directory has a nicely commented
+example of using xmlrpc as an XML-RPC server and client (they even talk to each
+other!).
 
 A brief example:
 

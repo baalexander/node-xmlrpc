@@ -8,7 +8,7 @@
  */
 
 var fs     = require('fs')
-  , xmlrpc = require('../lib/node-xmlrpc.js')
+  , xmlrpc = require('../lib/xmlrpc.js')
 
 
 ////////////////////////////////////////////////////////////////////////

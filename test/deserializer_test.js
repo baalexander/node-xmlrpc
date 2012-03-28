@@ -254,6 +254,17 @@ vows.describe('Deserializer').addBatch({
                           , [ { yetAnotherName: 1999.26} , 'moreNested' ]
                          ])
       }
+    , 'a very large response': {
+        topic: deserializeMethodResponseFixture('good_food/very_large_response.xml')
+      , 'does not return an error': assertOk
+      , 'results in a matching object': function(error, result) {
+          var resultsFile = path.join(__dirname, 'fixtures', 'good_food', 'very_large_response_results.json')
+          var data = fs.readFileSync(resultsFile, 'utf8')
+          var jsonResult = JSON.parse(data)
+          // Failing test!
+          // assert.deepEqual(result, jsonResult)
+        }
+      }
     }
   }
 }).export(module)

@@ -6,7 +6,7 @@ var vows   = require('vows')
   , error_gallery = process.env.XMLRPC_ERROR_GALLERY
 
 
-vows.describe('deserialize').addBatch({
+vows.describe('Deserializer').addBatch({
 
   'deserializeMethodResponse() called with': {
 

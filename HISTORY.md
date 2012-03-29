@@ -1,4 +1,13 @@
 
+## 1.0.0 / 2012-03-28
+
+ * Replaces builder/parser logic with marshaller/unmarshaller.
+ * Uses XML-RPC's nil for JavaScript null values and vice versa.
+ * Client and parser are now re-entrant safe.
+ * Moves test strings to fixture files.
+ * Adds 30+ test cases.
+ * Special thanks to @agnat for work on the (un)marshaller and tests.
+
 ## 0.9.4 / 2012-03-03
 
  * Handles chunked method calls.

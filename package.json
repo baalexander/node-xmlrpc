@@ -1,7 +1,7 @@
 { "name" : "xmlrpc"
 , "description" : "A pure JavaScript XML-RPC client and server."
 , "keywords" : [ "xml-rpc", "xmlrpc", "xml", "rpc" ]
-, "version" : "0.9.4"
+, "version" : "1.0.0"
 , "preferGlobal" : false
 , "homepage" : "https://github.com/baalexander/node-xmlrpc"
 , "author" : "Brandon Alexander <baalexander@gmail.com> (https://github.com/baalexander)"
@@ -17,7 +17,7 @@
   }
 , "main" : "./lib/xmlrpc.js"
 , "dependencies" : {
-    "sax"   : "0.3.x"
+    "sax"   : "0.4.x"
   , "xmlbuilder" : "0.3.1"
   }
 , "devDependencies" : {

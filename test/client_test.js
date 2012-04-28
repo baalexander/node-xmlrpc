@@ -231,5 +231,44 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, 'äè12')
       }
     }
+  , 'with a multi-byte character in request' : {
+      topic: function () {
+        var that = this
+          , requestBody = ""
+        http.createServer(function (request, response) {
+          request.setEncoding('utf8')
+          request.on('data', function (chunk) {
+            requestBody += chunk
+          })
+          request.on('end', function () {
+            response.writeHead(200, {'Content-Type': 'text/xml'})
+            var data = '<?xml version="2.0" encoding="UTF-8"?>'
+              + '<methodResponse>'
+              + '<params>'
+              + '<param><value><string>ok</string></value></param>'
+              + '</params>'
+              + '</methodResponse>'
+            response.write(data)
+            response.end()
+          })
+        }).listen(9095, 'localhost')
+        // Waits briefly to give the server time to start up and start listening
+        setTimeout(function () {
+          var client = new Client({ host: 'localhost', port: 9095, path: '/'}, false)
+          client.methodCall('multiByte', ['ö'], function (error) {
+            that.callback(error, requestBody)
+          })
+        }, 500)
+      }
+    , 'contains full request' : function (error, value) {
+        var data = '<?xml version="1.0"?>' +
+          '<methodCall>' +
+          '<methodName>multiByte</methodName>' +
+          '<params><param><value><string>ö</string></value></param></params>' +
+          '</methodCall>'
+        assert.isNull(error)
+        assert.deepEqual(value, data)
+      }
+    }
   }
 }).export(module)

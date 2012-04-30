@@ -1,4 +1,8 @@
 
+## 1.0.1 / 2012-04-29
+
+ * Fixes content-length header value when sending multi-byte characters.
+
 ## 1.0.0 / 2012-03-28
 
  * Replaces builder/parser logic with marshaller/unmarshaller.
@@ -6,7 +10,7 @@
  * Client and parser are now re-entrant safe.
  * Moves test strings to fixture files.
  * Adds 30+ test cases.
- * Special thanks to @agnat for work on the (un)marshaller and tests.
+ * Special thanks to @agnat for his work on the (un)marshaller and tests.
 
 ## 0.9.4 / 2012-03-03
 

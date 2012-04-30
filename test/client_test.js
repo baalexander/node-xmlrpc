@@ -96,12 +96,10 @@ vows.describe('Client').addBatch({
               + '</methodResponse>'
             response.write(data)
             response.end()
-        }).listen(9090, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9090, 'localhost', function() {
           var client = new Client('http://localhost:9090', false)
           client.methodCall('listMethods', null, that.callback)
-        }, 500)
+        })
       }
     , 'contains the string' : function (error, value) {
         assert.isNull(error)
@@ -122,12 +120,10 @@ vows.describe('Client').addBatch({
               + '</methodResponse>'
             response.write(data)
             response.end()
-        }).listen(9091, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9091, 'localhost', function() {
           var client = new Client({ port: 9091, path: '/'}, false)
           client.methodCall('listMethods', null, that.callback)
-        }, 500)
+        })
       }
     , 'contains the string' : function (error, value) {
         assert.isNull(error)
@@ -153,12 +149,10 @@ vows.describe('Client').addBatch({
           response.write(chunk1)
           response.write(chunk2)
           response.end()
-        }).listen(9092, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9092, 'localhost', function() {
           var client = new Client({ host: 'localhost', port: 9092, path: '/'}, false)
           client.methodCall('listMethods', null, that.callback)
-        }, 500)
+        })
       }
     , 'contains the array' : function (error, value) {
         assert.isNull(error)
@@ -178,12 +172,10 @@ vows.describe('Client').addBatch({
               + '</methodResponse>'
             response.write(data)
             response.end()
-        }).listen(9093, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9093, 'localhost', function() {
           var client = new Client('http://localhost:9093', false)
           client.methodCall('listMethods', null, that.callback)
-        }, 500)
+        })
       }
     , 'contains the correct string' : function (error, value) {
         assert.isNull(error)
@@ -219,12 +211,10 @@ vows.describe('Client').addBatch({
           }
           response.write(hexData)
           response.end()
-        }).listen(9094, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9094, 'localhost', function() {
           var client = new Client({ host: 'localhost', port: 9094, path: '/', responseEncoding : 'binary'}, false)
           client.methodCall('listMethods', null, that.callback)
-        }, 500)
+        })
       }
     , 'contains the correct string' : function (error, value) {
         assert.isNull(error)
@@ -251,14 +241,12 @@ vows.describe('Client').addBatch({
             response.write(data)
             response.end()
           })
-        }).listen(9095, 'localhost')
-        // Waits briefly to give the server time to start up and start listening
-        setTimeout(function () {
+        }).listen(9095, 'localhost', function() {
           var client = new Client({ host: 'localhost', port: 9095, path: '/'}, false)
           client.methodCall('multiByte', ['ö'], function (error) {
             that.callback(error, requestBody)
           })
-        }, 500)
+        })
       }
     , 'contains full request' : function (error, value) {
         var data = '<?xml version="1.0"?>' +

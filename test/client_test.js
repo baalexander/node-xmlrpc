@@ -258,5 +258,22 @@ vows.describe('Client').addBatch({
         assert.deepEqual(value, data)
       }
     }
+  , 'with an unknown request' : {
+      topic: function () {
+        var that = this
+        http.createServer(function (request, response) {
+	  request.on('end', function () {
+	    response.writeHead(404);
+	    response.end();
+	  })
+	}).listen(9999, 'localhost', function() {
+	  var client = new Client({ host: 'localhost', port: 9999, path: '/'}, false)
+	  client.methodCall('unknown', null, function (error) {that.callback(error)});
+	})
+      }
+    , 'return NotFound Error' : function (error, value) {
+        assert.isObject(error)
+      }
+    }
   }
 }).export(module)

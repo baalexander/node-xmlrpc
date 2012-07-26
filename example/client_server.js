@@ -51,6 +51,10 @@ var server = xmlrpc.createSecureServer(secureServerOptions)
 // Handle method calls by listening for events with the method call name
 // Array handling
 // 'setArray' is the method call to listen for
+
+server.on('NotFound', function (methodeName, params) {
+	console.log(methodeName+ " is not found"); 
+})
 server.on('setArray', function (err, params, callback) {
   serverContents.calls.push('setArray')
   serverContents.arrayValue = params[0]
@@ -211,5 +215,8 @@ setTimeout(function () {
     console.log('Get Call Log Response: ' + value)
   })
 
+  client.methodCall('notFound', null, function (error, value) {
+    console.log('notFound: '+error);
+  });
 }, 1000)
 

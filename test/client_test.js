@@ -249,11 +249,11 @@ vows.describe('Client').addBatch({
         })
       }
     , 'contains full request' : function (error, value) {
-        var data = '<?xml version="1.0"?>' +
-          '<methodCall>' +
-          '<methodName>multiByte</methodName>' +
-          '<params><param><value><string>ö</string></value></param></params>' +
-          '</methodCall>'
+        var data = '<?xml version="1.0"?>'
+          + '<methodCall>'
+          + '<methodName>multiByte</methodName>'
+          + '<params><param><value><string>ö</string></value></param></params>'
+          + '</methodCall>'
         assert.isNull(error)
         assert.deepEqual(value, data)
       }
@@ -261,15 +261,15 @@ vows.describe('Client').addBatch({
   , 'with an unknown request' : {
       topic: function () {
         var that = this
-        http.createServer(function (request, response) {
-	  request.on('end', function () {
-	    response.writeHead(404);
-	    response.end();
-	  })
-	}).listen(9099, 'localhost', function() {
-	  var client = new Client({ host: 'localhost', port: 9099, path: '/'}, false)
-	  client.methodCall('unknown', null, function (error) {that.callback(error)});
-	})
+        http.createServer(function(request, response) {
+          request.on('end', function () {
+            response.writeHead(404);
+            response.end();
+          })
+        }).listen(9099, 'localhost', function() {
+          var client = new Client({ host: 'localhost', port: 9099, path: '/'}, false)
+          client.methodCall('unknown', null, function (error) {that.callback(error)});
+        })
       }
     , 'return NotFound Error' : function (error, value) {
         assert.isObject(error)

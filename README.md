@@ -31,9 +31,9 @@ var xmlrpc = require('xmlrpc')
 
 // Creates an XML-RPC server to listen to XML-RPC method calls
 var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })
-//Handle methods not found 
+// Handle methods not found
 server.on('NotFound', function(method, params) {
-  console.log('Method '+method+' does not exist');
+  console.log('Method ' + method + ' does not exist');
 })
 // Handle method calls by listening for events with the method call name
 server.on('anAction', function (err, params, callback) {

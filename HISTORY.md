@@ -1,4 +1,9 @@
 
+## 1.0.2 / 2012-07-29
+
+ * Server responds with a 404 if it does not handle the method.
+ * Client returns an error if the server returns a 404.
+
 ## 1.0.1 / 2012-04-29
 
  * Fixes content-length header value when sending multi-byte characters.

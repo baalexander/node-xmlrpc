@@ -3,6 +3,9 @@ var vows    = require('vows')
   , http    = require('http')
   , Client  = require('../lib/client')
   , hexUtil = require('./util/hexToBuffer')
+  , fs    = require("fs")
+
+const VALID_RESPONSE = fs.readFileSync(__dirname + "/fixtures/good_food/string_response.xml");
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////
@@ -65,6 +68,17 @@ vows.describe('Client').addBatch({
     , 'correctly encodes and sets the \'Authorization\' header' : function (topic) {
         assert.isNotNull(topic.Authorization)
         assert.equal(topic.Authorization, "Basic am9objoxMjM0NQ==")
+      }
+    }
+  , 'with a string URI inside options' : {
+      topic: function () {
+        var client = new Client({url:'http://localhost:9999'}, false)
+        return client.options
+      }
+      , 'parses the string URI into URI fields' : function (topic) {
+        assert.strictEqual(topic.host, 'localhost')
+        assert.strictEqual(topic.path, '/')
+        assert.equal(topic.port, 9999)
       }
     }
   }
@@ -275,5 +289,36 @@ vows.describe('Client').addBatch({
         assert.isObject(error)
       }
     }
+  , 'with cookies in response' : {
+      topic: function (){
+        var that = this;
+        var invokeCount = 0;
+        http.createServer(function(request, response) {
+          response.writeHead(200, {'Content-Type': 'text/xml', 'Set-Cookie': 'a=b'});
+          response.write(VALID_RESPONSE);
+          response.end();
+          invokeCount++;
+          if (invokeCount == 2) {
+            that.callback(undefined, request.headers["cookie"]);
+          }
+        }).listen(9096, 'localhost', function() {
+            var client = new Client({ host: 'localhost', port: 9096, path: '/', cookies: true}, false)
+            function cbIfError(err, result) {
+              if (err) that.callback(err, result);
+            }
+            client.methodCall('1', null, function(err, result) {
+              cbIfError(err, result);
+              client.methodCall('2', null, cbIfError);
+
+            });
+          });
+
+      },
+      'sends them back to the server' : function(error, value) {
+        assert.isNull(error, "Error was received but not expected");
+        assert.equal(value, "a=b")
+      }
+    }
+
   }
 }).export(module)

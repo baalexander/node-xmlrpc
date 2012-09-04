@@ -103,12 +103,11 @@ vows.describe('Server').addBatch({
   }
 , 'close()': {
   topic: function() {
+    console.log()
     var that = this
-    var server = new Server({ port: 9995, path: '/'}, false)
-    server.on('listening', function() {
+    var server = new Server({ port: 9995, path: '/'}, false, function() {
       server.close(function() {
-        var server2 = new Server({ port: 9995, path: '/'}, false)
-        server2.on('listening', that.callback)
+        var server2 = new Server({ port: 9995, path: '/'}, false, that.callback)
       })
     })
   }

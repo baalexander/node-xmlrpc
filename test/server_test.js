@@ -87,17 +87,32 @@ vows.describe('Server').addBatch({
     'with an unknown method': {
       topic: function() {
         var server = new Server({ port: 9996, path: '/'}, false)
-	server.on('NotFound', this.callback);
-	setTimeout(function () {
+
+        server.on('NotFound', this.callback);
+        setTimeout(function () {
           var options = { host: 'localhost', port: 9996, path: '/' }
-	  var client = new Client(options, false)
-	  client.methodCall('testMethod', null, function() { })
-	}, 500)
+          var client = new Client(options, false)
+          client.methodCall('testMethod', null, function() { })
+        }, 500)
       }
     , 'return 404' : function (method, params) {
         assert.equal(method, 'testMethod');
-	assert.deepEqual(params, []);
+        assert.deepEqual(params, []);
       }
+    }
+  }
+, 'close()': {
+  topic: function() {
+    console.log()
+    var that = this
+    var server = new Server({ port: 9995, path: '/'}, false, function() {
+      server.close(function() {
+        var server2 = new Server({ port: 9995, path: '/'}, false, that.callback)
+      })
+    })
+  }
+  , 'allows new connections on same port':  function (error) {
+      assert.ifError(error)
     }
   }
 }).export(module)

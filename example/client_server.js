@@ -134,6 +134,15 @@ server.on('fakeFault', function (error, params, callback) {
   serverContents.calls.push('fakeFault')
   callback({ faultCode: 2, faultString: 'Uh oh.'}, null)
 })
+// Handle wildcard message
+server.on('*', function (error, params, foundCallback, notFoundCallback) {
+  if (error == 'wildcardManagedMethod') {
+	  serverContents.calls.push(error)
+	  foundCallback(null, serverContents.calls)
+	  return
+  }
+  notFoundCallback()
+})
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -215,6 +224,10 @@ setTimeout(function () {
     console.log('Get Call Log Response: ' + value)
   })
 
+  client.methodCall('wildcardManagedMethod', null, function (error, value) {
+    console.log('Get Call Log Response via wildcardManagedMethod: '+value);
+  });
+  
   client.methodCall('notFound', null, function (error, value) {
     console.log('notFound: '+error);
   });

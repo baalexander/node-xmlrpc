@@ -70,6 +70,23 @@ Method call params for 'anAction': aParam
 Method response for 'anAction': aResult
 ```
 
+### Cookies support
+
+It is possible to turn on cookies support for XML-RPC client by special options flag.
+If turned on then all the cookies received from server will be bounced back with subsequent calls to the server.
+You also may manipulate cookies manually by the setCookie/getCookie call.
+
+```javascript
+var client = xmlrpc.createClient({host: 'localhost', port: 9090, cookies: true});
+client.setCookie('login', 'bilbo');
+//This call will send provided cookie to the server
+client.methodCall('someAction', [], function(error, value) {
+    //Here we may get cookie received from server if we know its name
+    console.log(client.getCookie('session'));
+});
+
+```
+
 ### To Test
 
 [![Build

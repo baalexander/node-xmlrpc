@@ -108,3 +108,10 @@ If submitting a bug fix, please update the appropriate test file too.
 
 Released under the MIT license. See the LICENSE file for the complete wording.
 
+
+## Contributors
+
+Thank you to all [the
+authors](https://github.com/baalexander/node-xmlrpc/graphs/contributors) and
+everyone who has filed an issue to help make xmlrpc better.
+

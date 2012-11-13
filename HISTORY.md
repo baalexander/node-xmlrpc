@@ -1,4 +1,11 @@
 
+## 1.1.0 / 2012-11-13
+
+ * Supports optional listening handler in Server.
+ * Adds close function to server.
+ * Adds cookie support to client.
+ * Changes minimum Node engine to v0.6.
+
 ## 1.0.2 / 2012-07-29
 
  * Server responds with a 404 if it does not handle the method.

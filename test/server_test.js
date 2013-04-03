@@ -82,6 +82,37 @@ vows.describe('Server').addBatch({
         assert.deepEqual(value, ['Param A', 'Param B'])
       }
     }
+  , 'with wildcard server': {
+      topic: function() {
+        var server = new Server({ port: 9994, path: '/'}, false)
+
+        server.on('*', this.callback);
+        setTimeout(function () {
+          var options = { host: 'localhost', port: 9994, path: '/',
+                            method: 'POST' }
+          var req = http.request(options, function() {})
+          var chunk1 = '<?xml version="1.0" encoding="UTF-8"?>'
+            + '<methodCall>'
+            + '<methodName>testMethod</methodName>'
+            + '<params>'
+            + '<param>'
+            + '<value><string>Param A</string></value>'
+            + '</param>'
+            + '<param>'
+            + '<value><string>Param B</string></value>'
+            + '</param>'
+            + '</params>'
+            + '</methodCall>'
+          req.on('error', function(e) { assert.isNull(e); })
+          req.write(chunk1)
+          req.end()
+        }, 500)
+      }
+    , 'known method' : function (method, params) {
+        assert.equal(method, 'testMethod')
+        assert.deepEqual(params, ['Param A', 'Param B'])
+      }
+    }
   }
 , 'Another call' :{
     'with an unknown method': {
@@ -115,4 +146,5 @@ vows.describe('Server').addBatch({
       assert.ifError(error)
     }
   }
+
 }).export(module)

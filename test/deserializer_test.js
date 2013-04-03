@@ -161,6 +161,11 @@ vows.describe('Deserializer').addBatch({
         , 'does not return an error': assertOk
         , 'results in an empty string': assertResponse('')
         }
+      , 'containing CDATA': {
+          topic: deserializeMethodResponseFixture('good_food/string_cdata_response.xml')
+        , 'does not return an error': assertOk
+        , 'results in the right string': assertResponse('<RE&UIRES-ESCAPING>')
+        }        
       }
     }
 

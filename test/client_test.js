@@ -1,11 +1,10 @@
-var vows    = require('vows')
-  , assert  = require('assert')
-  , http    = require('http')
-  , Client  = require('../lib/client')
-  , hexUtil = require('./util/hexToBuffer')
-  , fs    = require("fs")
+var vows   = require('vows')
+  , assert = require('assert')
+  , http   = require('http')
+  , Client = require('../lib/client')
+  , fs     = require('fs')
 
-const VALID_RESPONSE = fs.readFileSync(__dirname + "/fixtures/good_food/string_response.xml");
+const VALID_RESPONSE = fs.readFileSync(__dirname + '/fixtures/good_food/string_response.xml')
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////
@@ -67,7 +66,7 @@ vows.describe('Client').addBatch({
       }
     , 'correctly encodes and sets the \'Authorization\' header' : function (topic) {
         assert.isNotNull(topic.Authorization)
-        assert.equal(topic.Authorization, "Basic am9objoxMjM0NQ==")
+        assert.equal(topic.Authorization, 'Basic am9objoxMjM0NQ==')
       }
     }
   , 'with a string URI inside options' : {
@@ -215,14 +214,7 @@ vows.describe('Client').addBatch({
             + '16c75653e3c737472696e673ee4e831323c2f737472696e673e3c'
             + '2f76616c75653e3c2f706172616d3e3c2f706172616d733e3c2f6'
             + 'd6574686f64526573706f6e73653e'
-          var hexData = null
-          try {
-            // Hex encoding is only supported in Node v0.6+
-            hexData = new Buffer(hex, 'hex')
-          }
-          catch (e) {
-            hexData = hexUtil.hexToBuffer(hex)
-          }
+          var hexData = new Buffer(hex, 'hex')
           response.write(hexData)
           response.end()
         }).listen(9094, 'localhost', function() {
@@ -238,7 +230,7 @@ vows.describe('Client').addBatch({
   , 'with a multi-byte character in request' : {
       topic: function () {
         var that = this
-          , requestBody = ""
+          , requestBody = ''
         http.createServer(function (request, response) {
           request.setEncoding('utf8')
           request.on('data', function (chunk) {
@@ -277,12 +269,12 @@ vows.describe('Client').addBatch({
         var that = this
         http.createServer(function(request, response) {
           request.on('end', function () {
-            response.writeHead(404);
-            response.end();
+            response.writeHead(404)
+            response.end()
           })
         }).listen(9099, 'localhost', function() {
           var client = new Client({ host: 'localhost', port: 9099, path: '/'}, false)
-          client.methodCall('unknown', null, function (error) {that.callback(error)});
+          client.methodCall('unknown', null, function (error) {that.callback(error)})
         })
       }
     , 'return NotFound Error' : function (error, value) {
@@ -291,32 +283,32 @@ vows.describe('Client').addBatch({
     }
   , 'with cookies in response' : {
       topic: function (){
-        var that = this;
-        var invokeCount = 0;
+        var that = this
+        var invokeCount = 0
         http.createServer(function(request, response) {
-          response.writeHead(200, {'Content-Type': 'text/xml', 'Set-Cookie': 'a=b'});
-          response.write(VALID_RESPONSE);
-          response.end();
-          invokeCount++;
+          response.writeHead(200, {'Content-Type': 'text/xml', 'Set-Cookie': 'a=b'})
+          response.write(VALID_RESPONSE)
+          response.end()
+          invokeCount++
           if (invokeCount == 2) {
-            that.callback(undefined, request.headers["cookie"]);
+            that.callback(undefined, request.headers['cookie'])
           }
         }).listen(9096, 'localhost', function() {
             var client = new Client({ host: 'localhost', port: 9096, path: '/', cookies: true}, false)
             function cbIfError(err, result) {
-              if (err) that.callback(err, result);
+              if (err) that.callback(err, result)
             }
             client.methodCall('1', null, function(err, result) {
-              cbIfError(err, result);
-              client.methodCall('2', null, cbIfError);
+              cbIfError(err, result)
+              client.methodCall('2', null, cbIfError)
 
-            });
-          });
+            })
+          })
 
       },
       'sends them back to the server' : function(error, value) {
-        assert.isNull(error, "Error was received but not expected");
-        assert.equal(value, "a=b")
+        assert.isNull(error, 'Error was received but not expected')
+        assert.equal(value, 'a=b')
       }
     }
 

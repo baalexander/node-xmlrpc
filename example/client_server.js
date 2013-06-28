@@ -53,7 +53,7 @@ var server = xmlrpc.createSecureServer(secureServerOptions)
 // 'setArray' is the method call to listen for
 
 server.on('NotFound', function (methodeName, params) {
-	console.log(methodeName+ " is not found"); 
+  console.log(methodeName+ ' is not found');
 })
 server.on('setArray', function (err, params, callback) {
   serverContents.calls.push('setArray')

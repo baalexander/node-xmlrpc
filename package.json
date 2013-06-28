@@ -18,7 +18,7 @@
 , "main" : "./lib/xmlrpc.js"
 , "dependencies" : {
     "sax"   : "0.4.x"
-  , "xmlbuilder" : "0.3.1"
+  , "xmlbuilder" : "0.4.2"
   }
 , "devDependencies" : {
     "vows" : "0.6.x"

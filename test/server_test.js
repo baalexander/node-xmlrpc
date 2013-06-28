@@ -71,7 +71,9 @@ vows.describe('Server').addBatch({
             + '</param>'
             + '</params>'
             + '</methodCall>'
-          req.on('error', function(e) { assert.isNull(e); })
+          req.on('error', function(e) {
+            assert.isNull(e)
+          })
           req.write(chunk1)
           req.write(chunk2)
           req.end()
@@ -88,7 +90,7 @@ vows.describe('Server').addBatch({
       topic: function() {
         var server = new Server({ port: 9996, path: '/'}, false)
 
-        server.on('NotFound', this.callback);
+        server.on('NotFound', this.callback)
         setTimeout(function () {
           var options = { host: 'localhost', port: 9996, path: '/' }
           var client = new Client(options, false)
@@ -96,8 +98,8 @@ vows.describe('Server').addBatch({
         }, 500)
       }
     , 'return 404' : function (method, params) {
-        assert.equal(method, 'testMethod');
-        assert.deepEqual(params, []);
+        assert.equal(method, 'testMethod')
+        assert.deepEqual(params, [])
       }
     }
   }

@@ -4,7 +4,6 @@ var vows       = require('vows')
   , assert     = require('assert')
   , Serializer = require('../lib/serializer')
 
-
 vows.describe('Serializer').addBatch({
 
   'serializeMethodCall() called with': {

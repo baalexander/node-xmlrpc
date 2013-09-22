@@ -1,4 +1,11 @@
 
+## 1.1.1 / 2013-09-22
+
+ * Adds CDATA deserialization.
+ * Updates XMLBuilder to get rid of warnings at installation time.
+ * Cleans up unformatted code.
+ * Removes vestigial code from ancient v0.4 days.
+
 ## 1.1.0 / 2012-11-13
 
  * Supports optional listening handler in Server.

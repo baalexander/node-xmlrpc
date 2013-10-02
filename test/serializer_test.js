@@ -127,6 +127,13 @@ vows.describe('Serializer').addBatch({
           }
         , 'contains the empty string': assertXml('good_food/string_empty_call.xml')
         }
+      , 'with a string param that has CDATA' : {
+          topic: function () {
+            var value = '<foo><![CDATA[aaa]]></foo>'
+            return Serializer.serializeMethodCall('testCDATAMethod', [value], true)
+          }
+        , 'contains the CDATA not serialized string': assertXml('good_food/string_cdata_not_serialized.xml')
+        }
       }
 
     , 'undefined' : {

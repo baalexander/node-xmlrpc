@@ -3,6 +3,8 @@ var vows       = require('vows')
   , fs         = require('fs')
   , assert     = require('assert')
   , Serializer = require('../lib/serializer')
+  , CustomType = require('../lib/customtype')
+  , util = require('util')
 
 vows.describe('Serializer').addBatch({
 
@@ -189,7 +191,28 @@ vows.describe('Serializer').addBatch({
       }
 
     }
-
+  , 'CustomType': {
+        'default' : {
+            topic: function () {
+              var value = new CustomType('testCustomType')
+              return Serializer.serializeMethodCall('testMethod', [value])
+            }
+          , 'contains the customType': assertXml('good_food/customtype_call.xml')
+        }
+      , 'extended' : {
+          topic: function () {
+            var ExtendedCustomType = function (raw) {
+              raw = 'extended' + raw;
+              CustomType.call(this, raw);
+            }
+            util.inherits(ExtendedCustomType, CustomType);
+            ExtendedCustomType.prototype.tagName = 'extendedCustomType';
+            var value = new ExtendedCustomType('TestCustomType')
+            return Serializer.serializeMethodCall('testMethod', [value])
+          }
+        , 'contains the customType': assertXml('good_food/customtype_extended_call.xml')
+      }
+    }
   }
 
 , 'serializeMethodResponse() called with': {
@@ -355,6 +378,28 @@ vows.describe('Serializer').addBatch({
 
     }
 
+  , 'CustomType': {
+      'default' : {
+          topic: function () {
+            var value = new CustomType('testCustomType')
+            return Serializer.serializeMethodResponse(value)
+          }
+        , 'contains the customType': assertXml('good_food/customtype_response.xml')
+      }
+    , 'extended' : {
+        topic: function () {
+          var ExtendedCustomType = function (raw) {
+            raw = 'extended' + raw;
+            CustomType.call(this, raw);
+          }
+          util.inherits(ExtendedCustomType, CustomType);
+          ExtendedCustomType.prototype.tagName = 'extendedCustomType';
+          var value = new ExtendedCustomType('TestCustomType')
+          return Serializer.serializeMethodResponse(value)
+        }
+      , 'contains the customType': assertXml('good_food/customtype_extended_response.xml')
+      }
+    }
   }
 }).export(module)
 

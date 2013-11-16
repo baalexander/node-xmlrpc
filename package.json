@@ -21,7 +21,7 @@
   , "xmlbuilder" : "0.4.2"
   }
 , "devDependencies" : {
-    "vows" : "0.6.x"
+    "vows" : "0.7.x"
   }
 , "scripts" : {
     "test" : "make test"

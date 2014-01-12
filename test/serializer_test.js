@@ -202,11 +202,11 @@ vows.describe('Serializer').addBatch({
       , 'extended' : {
           topic: function () {
             var ExtendedCustomType = function (raw) {
-              raw = 'extended' + raw;
-              CustomType.call(this, raw);
+              raw = 'extended' + raw
+              CustomType.call(this, raw)
             }
-            util.inherits(ExtendedCustomType, CustomType);
-            ExtendedCustomType.prototype.tagName = 'extendedCustomType';
+            util.inherits(ExtendedCustomType, CustomType)
+            ExtendedCustomType.prototype.tagName = 'extendedCustomType'
             var value = new ExtendedCustomType('TestCustomType')
             return Serializer.serializeMethodCall('testMethod', [value])
           }
@@ -389,11 +389,11 @@ vows.describe('Serializer').addBatch({
     , 'extended' : {
         topic: function () {
           var ExtendedCustomType = function (raw) {
-            raw = 'extended' + raw;
-            CustomType.call(this, raw);
+            raw = 'extended' + raw
+            CustomType.call(this, raw)
           }
-          util.inherits(ExtendedCustomType, CustomType);
-          ExtendedCustomType.prototype.tagName = 'extendedCustomType';
+          util.inherits(ExtendedCustomType, CustomType)
+          ExtendedCustomType.prototype.tagName = 'extendedCustomType'
           var value = new ExtendedCustomType('TestCustomType')
           return Serializer.serializeMethodResponse(value)
         }

@@ -1,3 +1,8 @@
+## 1.2.0 / 2014-01-12
+
+ * Adds (tested) support for Node v0.10 and v0.11.
+ * Drops support for Node v0.6.
+ * Adds a Custom Type serializer for non-standard XML-RPC types.
 
 ## 1.1.1 / 2013-09-22
 

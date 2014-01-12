@@ -268,10 +268,8 @@ vows.describe('Client').addBatch({
       topic: function () {
         var that = this
         http.createServer(function(request, response) {
-          request.on('end', function () {
-            response.writeHead(404)
-            response.end()
-          })
+          response.writeHead(404)
+          response.end()
         }).listen(9099, 'localhost', function() {
           var client = new Client({ host: 'localhost', port: 9099, path: '/'}, false)
           client.methodCall('unknown', null, function (error) {that.callback(error)})

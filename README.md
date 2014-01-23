@@ -70,6 +70,53 @@ Method call params for 'anAction': aParam
 Method response for 'anAction': aResult
 ```
 
+### Date/Time Formatting
+
+XML-RPC dates are formatted according to ISO 8601. There are a number of
+formatting options within the boundaries of the standard. The decoder detects
+those formats and parses them automatically, but for encoding dates to ISO
+8601 some options can be specified to match your specific implementation.
+
+
+The formatting options can be set through
+```xmlrpc.dateFormatter.setOpts(options);```, where the ```options```
+parameter is an object, with the following (optional) boolean members:
+
+* ```colons``` - enables/disables formatting the time portion with a colon as
+separator (default: ```true```)
+* ```hyphens``` - enables/disables formatting the date portion with a hyphen
+as separator (default: ```false```)
+* ```local``` - encode as local time instead of UTC (```true``` = local,
+```false``` = utc, default: ```true```)
+* ```ms``` - enables/disables output of milliseconds (default: ```false```)
+* ```offset``` - enables/disables output of UTC offset in case of local time
+(default: ```false```)
+
+
+Default format: 20140101T11:20:00
+
+
+UTC Example:
+```javascript
+xmlrpc.dateFormatter.setOpts({
+  colons: true
+, hyphens: true
+, local: false
+, ms: true
+}) // encoding output: '2014-01-01T16:20:00.000Z'
+```
+
+Local date + offset example:
+```javascript
+xmlrpc.dateFormatter.setOpts({
+  colons: true
+, hyphens: true
+, local: true
+, ms: false
+, offset: true
+}) // encoding output: '2014-01-01T11:20:00-05:00'
+```
+
 ### Cookies support
 
 It is possible to turn on cookies support for XML-RPC client by special options flag.

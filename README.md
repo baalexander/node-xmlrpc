@@ -134,6 +134,42 @@ client.methodCall('someAction', [], function(error, value) {
 
 ```
 
+### Custom Types
+If you need to parse to a specific format or need to handle custom data types
+that are not supported by default, it is possible to extend the serializer
+with a user-defined type for your specific needs.
+
+A custom type can be defined as follows:
+```javascript
+var xmlrpc = require('xmlrpc');
+var util = require('util');
+
+// create your custom class
+var YourType = function (raw) {
+  xmlrpc.CustomType.call(this, raw);
+};
+
+// inherit everything
+util.inherits(YourType, xmlrpc.CustomType);
+
+// set a custom tagName (defaults to 'customType')
+YourType.prototype.tagName = 'yourType';
+
+// optionally, override the serializer
+YourType.prototype.serialize = function (xml) {
+  var value = somefunction(this.raw);
+  return xml.ele(this.tagName).txt(value);
+}
+```
+
+and then make your method calls, wrapping your variables inside your new type
+definition:
+
+```javascript
+var client = xmlrpc.createClient('YOUR_ENDPOINT');
+client.methodCall('YOUR_METHOD', [new YourType(yourVariable)], yourCallback);
+```
+
 ### To Test
 
 [![Build

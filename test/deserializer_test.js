@@ -264,10 +264,8 @@ vows.describe('Deserializer').addBatch({
       , 'does not return an error': assertOk
       , 'results in a matching object': function(error, result) {
           var resultsFile = path.join(__dirname, 'fixtures', 'good_food', 'very_large_response_results.json')
-          var data = fs.readFileSync(resultsFile, 'utf8')
-          var jsonResult = JSON.parse(data)
-          // Failing test!
-          // assert.deepEqual(result, jsonResult)
+          var jsonResult = fs.readFileSync(resultsFile, 'utf8')
+          assert.equal(JSON.stringify(result), jsonResult)
         }
       }
     }

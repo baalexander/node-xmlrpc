@@ -165,7 +165,7 @@ vows.describe('Deserializer').addBatch({
           topic: deserializeMethodResponseFixture('good_food/string_cdata_response.xml')
         , 'does not return an error': assertOk
         , 'results in the right string': assertResponse('<RE&UIRES-ESCAPING>')
-        }        
+        }
       }
     }
 
@@ -254,7 +254,7 @@ vows.describe('Deserializer').addBatch({
       , 'results in a matching object':
           assertResponse([ { theName: 'testValue'
                             , anotherName: {nestedName: 'nestedValue' }
-                            , lastName: 'Smith' 
+                            , lastName: 'Smith'
                             }
                           , [ { yetAnotherName: 1999.26} , 'moreNested' ]
                          ])

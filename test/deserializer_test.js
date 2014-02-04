@@ -165,7 +165,7 @@ vows.describe('Deserializer').addBatch({
           topic: deserializeMethodResponseFixture('good_food/string_cdata_response.xml')
         , 'does not return an error': assertOk
         , 'results in the right string': assertResponse('<RE&UIRES-ESCAPING>')
-        }        
+        }
       }
     }
 
@@ -254,7 +254,7 @@ vows.describe('Deserializer').addBatch({
       , 'results in a matching object':
           assertResponse([ { theName: 'testValue'
                             , anotherName: {nestedName: 'nestedValue' }
-                            , lastName: 'Smith' 
+                            , lastName: 'Smith'
                             }
                           , [ { yetAnotherName: 1999.26} , 'moreNested' ]
                          ])
@@ -264,10 +264,8 @@ vows.describe('Deserializer').addBatch({
       , 'does not return an error': assertOk
       , 'results in a matching object': function(error, result) {
           var resultsFile = path.join(__dirname, 'fixtures', 'good_food', 'very_large_response_results.json')
-          var data = fs.readFileSync(resultsFile, 'utf8')
-          var jsonResult = JSON.parse(data)
-          // Failing test!
-          // assert.deepEqual(result, jsonResult)
+          var jsonResult = fs.readFileSync(resultsFile, 'utf8')
+          assert.equal(JSON.stringify(result), jsonResult)
         }
       }
     }

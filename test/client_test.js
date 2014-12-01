@@ -5,6 +5,7 @@ var vows   = require('vows')
   , fs     = require('fs')
 
 const VALID_RESPONSE = fs.readFileSync(__dirname + '/fixtures/good_food/string_response.xml')
+const BROKEN_XML= fs.readFileSync(__dirname + '/fixtures/bad_food/broken_xml.xml')
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////
@@ -309,6 +310,36 @@ vows.describe('Client').addBatch({
         assert.equal(value, 'a=b')
       }
     }
-
+  , 'that responds with a malformed xml': {
+      topic: function () {
+        var that = this
+        http.createServer(function(request, response) {
+          response.writeHead(500, {'Content-Type': 'text/html'})
+          response.write(BROKEN_XML)
+          response.end()
+        }).listen(9097, 'localhost', function () {
+          var client = new Client({ host: 'localhost', port: 9097, path: '/' }, false)
+          client.methodCall('broken', null, that.callback)
+        })
+      }
+    , 'returns an error': function (error, value) {
+        assert.instanceOf(error, Error)
+        assert.match(error.message, /^Unexpected end/)
+      }
+    , 'returns the request object with the error': function (error, value) {
+        assert.instanceOf(error, Error)
+        assert.isObject(error.req)
+        assert.isObject(error.req.connection)
+        assert.isString(error.req._header)
+      }
+    , 'returns the response object with the error': function (error, value) {
+        assert.instanceOf(error, Error)
+        assert.isObject(error.res)
+        assert.strictEqual(error.res.statusCode, 500)
+      }
+    , 'returns the body with the error': function (error, value) {
+        assert.strictEqual(error.body, BROKEN_XML.toString())
+      }
+    }
   }
 }).export(module)

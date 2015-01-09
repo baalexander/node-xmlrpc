@@ -5,7 +5,7 @@ var vows   = require('vows')
   , fs     = require('fs')
 
 const VALID_RESPONSE = fs.readFileSync(__dirname + '/fixtures/good_food/string_response.xml')
-const BROKEN_XML= fs.readFileSync(__dirname + '/fixtures/bad_food/broken_xml.xml')
+const BROKEN_XML = fs.readFileSync(__dirname + '/fixtures/bad_food/broken_xml.xml')
 
 vows.describe('Client').addBatch({
   //////////////////////////////////////////////////////////////////////

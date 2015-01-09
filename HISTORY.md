@@ -1,3 +1,10 @@
+## 1.3.0 / 2015-01-09
+
+ * Reworked DateFormatter to improve ISO-8601 implementation.
+ * Updates XMLBuilder to 2.4.
+ * Updates sax to 0.6.
+ * Adds more detail to Client request errors to ease debugging.
+
 ## 1.2.0 / 2014-01-12
 
  * Adds (tested) support for Node v0.10 and v0.11.

@@ -170,6 +170,34 @@ var client = xmlrpc.createClient('YOUR_ENDPOINT');
 client.methodCall('YOUR_METHOD', [new YourType(yourVariable)], yourCallback);
 ```
 
+### To Debug (client-side)
+
+Error callbacks on the client are enriched with request and response
+information and the returned body as long as a http connection was made,
+to aide with request debugging. Example:
+
+```javascript
+var client = xmlrpc.createClient({ host: 'example.com', port: 80 });
+client.methodCall('FAULTY_METHOD', [], function (error, value) {
+  if (error) {
+    console.log('error:', error);
+    console.log('req headers:', error.req && error.req._header);
+    console.log('res code:', error.res && error.res.statusCode);
+    console.log('res body:', error.body);
+  } else {
+    console.log('value:', value);
+  }
+});
+
+// error: [Error: Unknown XML-RPC tag 'TITLE']
+// req headers: POST / HTTP/1.1
+// User-Agent: NodeJS XML-RPC Client
+// ...
+// res code: 200
+// res body: <!doctype html>
+// ...
+```
+
 ### To Test
 
 [![Build

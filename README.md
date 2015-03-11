@@ -91,6 +91,8 @@ as separator (default: ```false```)
 * ```ms``` - enables/disables output of milliseconds (default: ```false```)
 * ```offset``` - enables/disables output of UTC offset in case of local time
 (default: ```false```)
+* ```originTimezone``` - format date based on origin's timezone per [moment-timezone](http://momentjs.com/timezone/) (eg. 'America/Los_Angeles')
+(default: ```false```)
 
 
 Default format: 20140101T11:20:00

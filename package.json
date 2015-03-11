@@ -19,6 +19,7 @@
 , "dependencies" : {
     "sax"   : "0.6.x"
   , "xmlbuilder" : "2.4.x"
+  , "moment-timezone" : "0.3.x"
   }
 , "devDependencies" : {
     "vows" : "0.7.x"

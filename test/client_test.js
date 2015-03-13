@@ -256,7 +256,7 @@ vows.describe('Client').addBatch({
         })
       }
     , 'contains full request' : function (error, value) {
-        var data = '<?xml version="1.0"?>'
+        var data = '<?xml version="1.0" encoding="UTF-8"?>'
           + '<methodCall>'
           + '<methodName>multiByte</methodName>'
           + '<params><param><value><string>ö</string></value></param></params>'

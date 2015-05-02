@@ -213,6 +213,13 @@ vows.describe('Serializer').addBatch({
         , 'contains the customType': assertXml('good_food/customtype_extended_call.xml')
       }
     }
+  , 'utf-8 encoding': {
+      topic: function () {
+        var value = "\x46\x6F\x6F"
+        return Serializer.serializeMethodCall('testMethod', [value], 'utf-8')
+      }
+    , 'contains the encoding attribute': assertXml('good_food/encoded_call.xml')
+    }
   }
 
 , 'serializeMethodResponse() called with': {

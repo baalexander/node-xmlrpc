@@ -81,6 +81,16 @@ vows.describe('Client').addBatch({
         assert.equal(topic.port, 9999)
       }
     }
+    // Test passing encoding
+  , 'with an encoding passed': {
+      topic: function () {
+        var client = new Client({ url:'http://localhost:9999', encoding: 'utf-8' }, false)
+        return client.options
+      }
+    , 'caches the encoding option' : function (topic) {
+        assert.strictEqual(topic.encoding, 'utf-8')
+      }
+    }
   }
   //////////////////////////////////////////////////////////////////////
   // Test method call functionality

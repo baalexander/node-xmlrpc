@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><methodCall><methodName>testMethod</methodName><params><param><value><string>Foo</string></value></param></params></methodCall>

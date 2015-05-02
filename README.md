@@ -18,6 +18,10 @@ method responses, or as both.
 npm install xmlrpc
 ```
 
+**NOTE**: If you want to make method calls using ES6 Proxy API, you need to run your app with flag turning Proxy API on `node --harmony-proxies example/proxy_calls.js`.
+
+ES6 Proxy calls also require `Promise` support (`Client#methodCallPromise` method).
+
 ### To Use
 
 The file client_server.js in the example directory has a nicely commented
@@ -27,47 +31,59 @@ other!).
 A brief example:
 
 ```javascript
-var xmlrpc = require('xmlrpc')
+var xmlrpc = require('../lib/xmlrpc');
+
+function logError (error) {
+  console.log('An error occured: ' + error.message);
+}
 
 // Creates an XML-RPC server to listen to XML-RPC method calls
-var server = xmlrpc.createServer({ host: 'localhost', port: 9090 })
-// Handle methods not found
-server.on('NotFound', function(method, params) {
-  console.log('Method ' + method + ' does not exist');
-})
-// Handle method calls by listening for events with the method call name
-server.on('anAction', function (err, params, callback) {
-  console.log('Method call params for \'anAction\': ' + params)
+xmlrpc.createServer({ host: 'localhost', port: 9090 })
+  // Handle methods not found
+  .on('NotFound', function (method, params) {
+    console.log('Method ' + method + ' does not exist');
+  })
+  // Handle method calls by listening for events with the method call name
+  .on('company.employees.list', function (err, params, callback) {
+    console.log('Method call params for \'company.employees.list\': ', params);
 
-  // ...perform an action...
+    callback(null, []);
+  })
+  .on('company.employees.getDetail', function (err, params, callback) {
+    console.log('Method call params for \'company.employees.getDetail\': ', params);
 
-  // Send a method response with a value
-  callback(null, 'aResult')
-})
+    callback(null, { id: params[0], name: 'Ondrej' });
+  });
+
 console.log('XML-RPC server listening on port 9091')
 
-// Waits briefly to give the XML-RPC server time to start up and start
-// listening
+
 setTimeout(function () {
   // Creates an XML-RPC client. Passes the host information on where to
   // make the XML-RPC calls.
-  var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'})
+  var client = xmlrpc.createClient({ host: 'localhost', port: 9090, path: '/'});
 
-  // Sends a method call to the XML-RPC server
-  client.methodCall('anAction', ['aParam'], function (error, value) {
-    // Results of the method response
-    console.log('Method response for \'anAction\': ' + value)
-  })
+  client.$.company.employees.list()
+    .then(function (value) {
+      console.log('Method response for \'company.employees.list\': ', value);
+    }).catch(logError);
 
-}, 1000)
+  client.$.company.employees.getDetail(1, true)
+    .then(function (value) {
+      console.log('Method response for \'company.employees.getDetail\': ', value);
+    }).catch(logError);
+
+}, 1000);
 ```
 
 Output from the example:
 
 ```
-XML-RPC server listening on port 9090
-Method call params for 'anAction': aParam
-Method response for 'anAction': aResult
+XML-RPC server listening on port 9091
+Method call params for 'company.employees.list':  []
+Method response for 'company.employees.list':  []
+Method call params for 'company.employees.getDetail':  [ 1, true ]
+Method response for 'company.employees.getDetail':  { id: 1, name: 'Ondrej' }
 ```
 
 ### Date/Time Formatting

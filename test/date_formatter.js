@@ -37,7 +37,7 @@ vows.describe('Date Formatter').addBatch({
           assert.isString(str)
           assert.match(str, new RegExp())
         }
-      , teardown: function () { date_formatter.setOpts(); }
+      , teardown: function () { date_formatter.setOpts() }
       }
     , "to utc representation": {
         topic: function (d) {
@@ -65,7 +65,7 @@ vows.describe('Date Formatter').addBatch({
           assert.isString(str)
           assert.match(str, new RegExp(reStr))
         }
-      , teardown: function () { date_formatter.setOpts(); }
+      , teardown: function () { date_formatter.setOpts() }
       }
     }
   }
@@ -118,6 +118,7 @@ vows.describe('Date Formatter').addBatch({
   }
 }).export(module)
 
+// HELPERS
 function encodeCase (opts, reStr) {
   return {
     topic: function (d) {
@@ -129,7 +130,7 @@ function encodeCase (opts, reStr) {
       assert.isString(str)
       assert.match(str, new RegExp(reStr))
     }
-  , teardown: function () { date_formatter.setOpts(); }
+  , teardown: function () { date_formatter.setOpts() }
   }
 }
 

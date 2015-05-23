@@ -1,3 +1,9 @@
+## 1.3.1 / 2015-05-23
+
+ * Adds option to specify xml encoding.
+ * Updates XMLBuilder to 2.6.
+ * Adds support for Node v0.12.
+
 ## 1.3.0 / 2015-01-09
 
  * Reworked DateFormatter to improve ISO-8601 implementation.

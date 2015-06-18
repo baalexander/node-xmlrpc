@@ -217,7 +217,7 @@ Integration.
 
 To run the test suite:
 
-`make test`
+`npm test`
 
 If submitting a bug fix, please update the appropriate test file too.
 

@@ -36,10 +36,13 @@ server.on('NotFound', function(method, params) {
   console.log('Method ' + method + ' does not exist');
 })
 // Handle method calls by listening for events with the method call name
-server.on('anAction', function (err, params, callback) {
+server.on('anAction', function (err, params, callback, request, response) {
   console.log('Method call params for \'anAction\': ' + params)
 
   // ...perform an action...
+
+  // Use request and response objects directly for any custom processing, e.g.
+  // set or forward cookies
 
   // Send a method response with a value
   callback(null, 'aResult')

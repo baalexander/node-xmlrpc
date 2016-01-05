@@ -4,7 +4,8 @@ var vows       = require('vows')
   , assert     = require('assert')
   , Serializer = require('../lib/serializer')
   , CustomType = require('../lib/customtype')
-  , util = require('util')
+  , xmlrpcError= require('../lib/error')
+  , util       = require('util')
 
 vows.describe('Serializer').addBatch({
 
@@ -219,6 +220,103 @@ vows.describe('Serializer').addBatch({
         return Serializer.serializeMethodCall('testMethod', [value], 'utf-8')
       }
     , 'contains the encoding attribute': assertXml('good_food/encoded_call.xml')
+    }
+  }
+  
+  ,'serializeFault() called with': {
+
+    'type': {
+
+      'string' : {
+        'with a regular string param' : {
+          topic: function () {
+            var value = 'testString'
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the string': assertXml('good_food/string_fault.xml')
+        }
+      , 'with a string param that requires CDATA' : {
+          topic: function () {
+            var value = '<html><body>Congrats</body></html>'
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the CDATA-wrapped string': assertXml('good_food/string_cdata_fault.xml')
+        }
+      , 'with a multiline string param that requires CDATA' : {
+          topic: function () {
+            var value = '<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>'
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the CDATA-wrapped string': assertXml('good_food/string_multiline_cdata_fault.xml')
+        }
+      , 'with an empty string' : {
+          topic: function () {
+            var value = ''
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the empty string': assertXml('good_food/string_empty_fault.xml')
+        }
+      }
+
+     , 'XmlRpcError' : {
+        'with a code field' : {
+          topic: function () {
+			// PHP XML-RPC style
+            var error = xmlrpcError.makeError({
+				faultString: 'testString'
+			}, {
+				faultCode: 123
+			})
+			var value = xmlrpcError.makeResponseObjectFromError(error);
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the string': assertXml('good_food/string_code_fault.xml')
+        }
+        , 'without a code field' : {
+          topic: function () {
+			// PHP XML-RPC style
+            var error = xmlrpcError.makeError({
+				faultString: 'testString'
+			})
+			var value = xmlrpcError.makeResponseObjectFromError(error);
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the string': assertXml('good_food/string_fault.xml')
+        }
+      }
+
+     , 'Error' : {
+        'with message' : {
+          topic: function () {
+			// PHP XML-RPC style
+            var error = new Error('testString');
+			var value = xmlrpcError.makeResponseObjectFromError(error);
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the string': assertXml('good_food/string_fault.xml')
+        }
+      }
+
+     , 'Object' : {
+        'with message' : {
+          topic: function () {
+			// PHP XML-RPC style
+            var error = new Object('testString');
+			var value = xmlrpcError.makeResponseObjectFromError(error);
+            return Serializer.serializeFault(value)
+          }
+        , 'contains the string': assertXml('good_food/string_fault.xml')
+        }
+      }
+
+    }
+
+  , 'utf-8 encoding': {
+      topic: function () {
+        var value = "\x46\x6F\x6F"
+        return Serializer.serializeFault(value)
+      }
+    , 'contains the encoding attribute': assertXml('good_food/encoded_fault.xml')
     }
   }
 

@@ -180,6 +180,89 @@ var client = xmlrpc.createClient('YOUR_ENDPOINT');
 client.methodCall('YOUR_METHOD', [new YourType(yourVariable)], yourCallback);
 ```
 
+### XML RPC Error
+There is a special error type defined - `XmlRpcError`. And a helper function makeError to create errors easily.
+Use it to create an error and pass it to the `callback`.
+
+```javascript
+// Makes an error with only message and no code
+xmlrpc.makeError("Error occured")
+```
+
+The resulting response would be:
+```xml
+<?xml version="1.0"?>
+<methodResponse>
+	<fault>
+		<value>
+			<string>Error occured</string>
+		</value>
+	</fault>
+</methodResponse>
+```
+
+The error with a code example:
+```javascript
+// Makes an error with message in a field named 'message' and code in a field named 'code'
+xmlrpc.makeError("Error occured", 123)
+```
+
+The resulting response would be:
+```xml
+<?xml version="1.0"?>
+<methodResponse>
+	<fault>
+		<value>
+			<struct>
+				<member>
+					<name>code</name>
+					<value>
+						<int>123</int>
+					</value>
+				</member>
+				<member>
+					<name>message</name>
+					<value>
+						<string>Error occured</string>
+					</value>
+				</member>
+			</struct>
+		</value>
+	</fault>
+</methodResponse>
+```
+
+The PHP XML-RPC fault response style:
+```javascript
+// Makes an error with message in a field named 'faultString' and code in a field named 'faultCode'
+xmlrpc.makeError({faultString: "Error occured"}, {faultCode: 123})
+```
+
+The resulting response would be:
+```xml
+<?xml version="1.0"?>
+<methodResponse>
+	<fault>
+		<value>
+			<struct>
+				<member>
+					<name>faultCode</name>
+					<value>
+						<int>123</int>
+					</value>
+				</member>
+				<member>
+					<name>faultString</name>
+					<value>
+						<string>Error occured</string>
+					</value>
+				</member>
+			</struct>
+		</value>
+	</fault>
+</methodResponse>
+```
+
 ### To Debug (client-side)
 
 Error callbacks on the client are enriched with request and response

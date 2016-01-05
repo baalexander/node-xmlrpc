@@ -18,6 +18,7 @@
 , "main" : "./lib/xmlrpc.js"
 , "dependencies" : {
     "sax"   : "0.6.x"
+  , "tea-error": "^0.2.0"
   , "xmlbuilder" : "2.6.x"
   }
 , "devDependencies" : {

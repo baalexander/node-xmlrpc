@@ -230,28 +230,32 @@ vows.describe('Serializer').addBatch({
       'string' : {
         'with a regular string param' : {
           topic: function () {
-            var value = 'testString'
+            var error = 'testString'
+			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }
         , 'contains the string': assertXml('good_food/string_fault.xml')
         }
       , 'with a string param that requires CDATA' : {
           topic: function () {
-            var value = '<html><body>Congrats</body></html>'
+            var error = '<html><body>Congrats</body></html>'
+			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }
         , 'contains the CDATA-wrapped string': assertXml('good_food/string_cdata_fault.xml')
         }
       , 'with a multiline string param that requires CDATA' : {
           topic: function () {
-            var value = '<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>'
+            var error = '<html>\n<head><title>Go testing!</title></head>\n<body>Congrats</body>\n</html>'
+			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }
         , 'contains the CDATA-wrapped string': assertXml('good_food/string_multiline_cdata_fault.xml')
         }
       , 'with an empty string' : {
           topic: function () {
-            var value = ''
+            var error = ''
+			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }
         , 'contains the empty string': assertXml('good_food/string_empty_fault.xml')

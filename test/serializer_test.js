@@ -261,12 +261,7 @@ vows.describe('Serializer').addBatch({
      , 'XmlRpcError' : {
         'with a code field' : {
           topic: function () {
-			// PHP XML-RPC style
-            var error = xmlrpcError.makeError({
-				faultString: 'testString'
-			}, {
-				faultCode: 123
-			})
+            var error = xmlrpcError.makeError('testString', 123)
 			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }
@@ -275,9 +270,7 @@ vows.describe('Serializer').addBatch({
         , 'without a code field' : {
           topic: function () {
 			// PHP XML-RPC style
-            var error = xmlrpcError.makeError({
-				faultString: 'testString'
-			})
+            var error = xmlrpcError.makeError('testString')
 			var value = xmlrpcError.makeResponseObjectFromError(error);
             return Serializer.serializeFault(value)
           }

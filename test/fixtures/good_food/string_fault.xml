@@ -1,1 +1,1 @@
-<?xml version="1.0"?><methodResponse><fault><value><string>testString</string></value></fault></methodResponse>
+<?xml version="1.0"?><methodResponse><fault><value><struct><member><name>faultString</name><value><string>testString</string></value></member><member><name>faultCode</name><value><int>0</int></value></member></struct></value></fault></methodResponse>

@@ -185,26 +185,8 @@ There is a special error type defined - `XmlRpcError`. And a helper function mak
 Use it to create an error and pass it to the `callback`.
 
 ```javascript
-// Makes an error with only message and no code
+// Makes an error with only message and code defaults to zero (0)
 xmlrpc.makeError("Error occured")
-```
-
-The resulting response would be:
-```xml
-<?xml version="1.0"?>
-<methodResponse>
-	<fault>
-		<value>
-			<string>Error occured</string>
-		</value>
-	</fault>
-</methodResponse>
-```
-
-The error with a code example:
-```javascript
-// Makes an error with message in a field named 'message' and code in a field named 'code'
-xmlrpc.makeError("Error occured", 123)
 ```
 
 The resulting response would be:
@@ -217,7 +199,7 @@ The resulting response would be:
 				<member>
 					<name>code</name>
 					<value>
-						<int>123</int>
+						<int>0</int>
 					</value>
 				</member>
 				<member>
@@ -232,10 +214,10 @@ The resulting response would be:
 </methodResponse>
 ```
 
-The PHP XML-RPC fault response style:
+The error with a code example:
 ```javascript
-// Makes an error with message in a field named 'faultString' and code in a field named 'faultCode'
-xmlrpc.makeError({faultString: "Error occured"}, {faultCode: 123})
+// Makes an error with message and code
+xmlrpc.makeError("Error occured", 123)
 ```
 
 The resulting response would be:

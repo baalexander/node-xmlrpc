@@ -36,10 +36,13 @@ server.on('NotFound', function(method, params) {
   console.log('Method ' + method + ' does not exist');
 })
 // Handle method calls by listening for events with the method call name
-server.on('anAction', function (err, params, callback) {
+server.on('anAction', function (err, params, callback, request, response) {
   console.log('Method call params for \'anAction\': ' + params)
 
   // ...perform an action...
+
+  // Use request and response objects directly for any custom processing, e.g.
+  // set or forward cookies
 
   // Send a method response with a value
   callback(null, 'aResult')
@@ -175,6 +178,71 @@ definition:
 ```javascript
 var client = xmlrpc.createClient('YOUR_ENDPOINT');
 client.methodCall('YOUR_METHOD', [new YourType(yourVariable)], yourCallback);
+```
+
+### XML RPC Error
+There is a special error type defined - `XmlRpcError`. And a helper function makeError to create errors easily.
+Use it to create an error and pass it to the `callback`.
+
+```javascript
+// Makes an error with only message and code defaults to zero (0)
+xmlrpc.makeError("Error occured")
+```
+
+The resulting response would be:
+```xml
+<?xml version="1.0"?>
+<methodResponse>
+	<fault>
+		<value>
+			<struct>
+				<member>
+					<name>code</name>
+					<value>
+						<int>0</int>
+					</value>
+				</member>
+				<member>
+					<name>message</name>
+					<value>
+						<string>Error occured</string>
+					</value>
+				</member>
+			</struct>
+		</value>
+	</fault>
+</methodResponse>
+```
+
+The error with a code example:
+```javascript
+// Makes an error with message and code
+xmlrpc.makeError("Error occured", 123)
+```
+
+The resulting response would be:
+```xml
+<?xml version="1.0"?>
+<methodResponse>
+	<fault>
+		<value>
+			<struct>
+				<member>
+					<name>faultCode</name>
+					<value>
+						<int>123</int>
+					</value>
+				</member>
+				<member>
+					<name>faultString</name>
+					<value>
+						<string>Error occured</string>
+					</value>
+				</member>
+			</struct>
+		</value>
+	</fault>
+</methodResponse>
 ```
 
 ### To Debug (client-side)

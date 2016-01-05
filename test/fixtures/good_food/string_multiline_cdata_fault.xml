@@ -1,4 +1,4 @@
 <?xml version="1.0"?><methodResponse><fault><value><struct><member><name>faultString</name><value><string><![CDATA[<html>
 <head><title>Go testing!</title></head>
 <body>Congrats</body>
-</html>]]></string></value></member><member><name>faultCode</name><value><int>123</int></value></member></struct></value></fault></methodResponse>
+</html>]]></string></value></member><member><name>faultCode</name><value><int>0</int></value></member></struct></value></fault></methodResponse>

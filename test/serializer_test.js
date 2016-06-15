@@ -131,7 +131,7 @@ vows.describe('Serializer').addBatch({
         }
       , 'with a string contains emoji': {
           topic: function () {
-              var value = '\u{1F601}';
+              var value = new Buffer('f09f9881', 'hex').toString('utf-8')
               return Serializer.serializeMethodCall('testMethod', [value])
           }
         , 'contains a smiley' : assertXml('good_food/string_emoji.xml')
@@ -328,7 +328,7 @@ vows.describe('Serializer').addBatch({
         }
       , 'with string contains emoji' : {
           topic: function () {
-            var value = '\u{1F601}'
+            var value = new Buffer('f09f9881', 'hex').toString('utf-8')
             return Serializer.serializeMethodResponse(value)
           }
         , 'contains emoji': assertXml('good_food/string_emoji_response.xml')

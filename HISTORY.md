@@ -1,3 +1,12 @@
+## 1.3.2 / 2016-06-16
+
+ * Drops support CI/Support for node v0.8
+ * Adds support for node v6.x
+ * Adds support for emojies
+ * Removes Makefile in favor of npm test
+ * Updates XMLBuilder to 8.2
+ * Updates Sax to 1.2
+
 ## 1.3.1 / 2015-05-23
 
  * Adds option to specify xml encoding.

@@ -84,11 +84,20 @@ vows.describe('Client').addBatch({
     // Test passing encoding
   , 'with an encoding passed': {
       topic: function () {
-        var client = new Client({ url:'http://localhost:9999', encoding: 'utf-8' }, false)
-        return client.options
+        var client = new Client({ url:'http://localhost:9999', encoding: 'ISO-8859-1' }, false)
+        return client
       }
     , 'caches the encoding option' : function (topic) {
-        assert.strictEqual(topic.encoding, 'utf-8')
+        assert.strictEqual(topic.encoding, 'ISO-8859-1')
+      }
+    }
+  , 'with default encoding': {
+      topic: function () {
+        var client = new Client({ url:'http://localhost:9999' }, false)
+        return client
+      }
+    , 'caches the encoding option' : function (topic) {
+        assert.strictEqual(topic.encoding, 'utf8')
       }
     }
   }

@@ -103,6 +103,27 @@ vows.describe('Server').addBatch({
       }
     }
   }
+, 'A response': {
+    topic: function () {
+      var that = this
+
+      var server = new Server({ port: 9994, path: '/' })
+      server.on('testMethod', function (err, par, cb) { cb(null) })
+
+      setTimeout(function () {
+        var client = new Client({ host: 'localhost', port: 9994 })
+        client.headersProcessors.processors.push({
+          composeRequest: function () { }
+        , parseResponse: function (headers) { that.callback(null, headers) }
+        })
+        client.methodCall('testMethod', null, function () { })
+      }, 500)
+    }
+  , 'contains a content-length': function (headers) {
+      assert.isTrue(headers.hasOwnProperty('content-length'))
+      assert.isTrue(headers['content-length'] > 0)
+    }
+  }
 , 'close()': {
   topic: function() {
     console.log()

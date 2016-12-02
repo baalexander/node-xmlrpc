@@ -1,0 +1,1 @@
+<?xml version="1.0"?><methodCall><methodName>testMethod</methodName><params><param><value><string>HEAD&lt;![CDATA[Hello Test]]&gt;<html>FOOT</html></string></value></param></params></methodCall>

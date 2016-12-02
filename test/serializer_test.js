@@ -122,6 +122,13 @@ vows.describe('Serializer').addBatch({
           }
         , 'contains the CDATA-wrapped string': assertXml('good_food/string_multiline_cdata_call.xml')
         }
+      , 'with a string param that has CDATA' : {
+          topic: function () {
+            var value = 'HEAD<![CDATA[Hello Test]]><html>FOOT</html>'
+            return Serializer.serializeMethodCall('testMethod', [value])
+          }
+        , 'contains the cdata string' : assertXml('good_food/string_has_cdata_call.xml')
+        }
       , 'with an empty string' : {
           topic: function () {
             var value = ''

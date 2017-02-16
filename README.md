@@ -177,6 +177,60 @@ var client = xmlrpc.createClient('YOUR_ENDPOINT');
 client.methodCall('YOUR_METHOD', [new YourType(yourVariable)], yourCallback);
 ```
 
+### Custom Data Dictionary
+
+Instead of placing methods inside the core module as event listeners you can define a custom function dictionary as a plain JSON object for instance.  If you register the useDict listener you can then handle how to call your custom data library.  Using this method of construction allows for easier to test code as you are simply testing plain functions instead of the callback to an event listener.  This also allows you to handle method not found errors more verbosely for systems that do not elegantly handle the 404 error code.  For example:
+```javascript
+server.on('UseDict', function (method, err, params, callback) {
+			let stateObj = {
+				parametersObj,
+				params,
+				operationsObj,
+			}
+			let rpc = RPC()
+			if (typeof rpc[method] === 'function') {
+				rpc[method](stateObj, callback, popupError)
+			} else {
+				popupError('Method [' + method + '] does not exist')
+			}
+		})
+
+```
+Example of the custom function dictionary that is being called as rpc
+
+```javascript
+function RPC() {
+    let self = {
+
+        pushList({parametersObj, operationsObj, params}, callback) {
+            let list = []
+            list = params[0]
+            let value = params[1]
+            list.shift(list.push(value))
+            return callback(null, list)
+        },
+
+        averageList({parametersObj, operationsObj, params}, callback) {
+            let sum = params[0].reduce((a, b) => {
+                return a + b
+            }, 0)
+            let average = sum / params[0].length
+            return callback(null, average)
+        },
+
+        newList({parametersObj, operationsObj, params}, callback, popupError) {
+            let newListLength = params[0]
+            let padding = params[1] || -1
+            if (newListLength > 250) return popupError('List cannot be longer than 250')
+            let newList = new Array(newListLength).fill(padding)
+            return callback(null, newList)
+        }
+    }
+
+    return self
+}
+
+```
 ### To Debug (client-side)
 
 Error callbacks on the client are enriched with request and response

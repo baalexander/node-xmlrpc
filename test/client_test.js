@@ -59,6 +59,30 @@ vows.describe('Client').addBatch({
         assert.deepEqual(topic, { host: 'localhost', port: 9999, path: '/', method: 'POST', headers: headers })
       }
     }
+    // Test with a string for options, including a query string in the path
+  , 'with a string URI for options that includes a path with a query string' : {
+      topic: function () {
+        var client = new Client('http://localhost:9999?test=test', false)
+        return client.options
+      }
+    , 'parses the string URI into URI fields' : function (topic) {
+        assert.strictEqual(topic.host, 'localhost')
+        assert.strictEqual(topic.path, '/?test=test')
+        assert.equal(topic.port, 9999)
+      }
+    }
+   	// Test with options object, including a path with a query string.
+  , 'with a string URI for options that includes a query string' : {
+      topic: function () {
+        var client = new Client({host:'localhost', path : '/?test=test', port : 9999}, false)
+        return client.options
+      }
+    , 'parses the string URI into URI fields' : function (topic) {
+        assert.strictEqual(topic.host, 'localhost')
+        assert.strictEqual(topic.path, '/?test=test')
+        assert.equal(topic.port, 9999)
+      }
+    }
     // Test passing HTTP Basic authentication credentials
   , 'with basic auth passed' : {
       topic: function () {
